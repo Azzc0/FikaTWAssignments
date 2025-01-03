@@ -1,0 +1,5 @@
+bugs:
+* full sync needs to broadcast which template to use
+
+implement a cooldown/debounce for full syncs for like 5 seconds (to reduce traffic while doing a lot of invites)
+  - you can pass a callback to SendAddonMessage to know when a sync completes. If more requests came in during last sync, sync again

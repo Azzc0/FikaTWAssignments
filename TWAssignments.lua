@@ -1701,6 +1701,23 @@ function SpamRaid_OnClick()
                 end
             end
 
+            local bw_icon_replace = {
+                ['Skull'] = '|cFFF1EFE4[Skull]|r',
+                ['Cross'] = '|cFFB20A05[Cross]|r',
+                ['Square'] = '|cFF00B9F3[Square]|r',
+                ['Moon'] = '|cFF8FB9D0[Moon]|r',
+                ['Triangle'] = '|cFF2BD923[Triangle]|r',
+                ['Diamond'] = '"|cFFF7EF52[Diamond]|r"',
+                ['Circle'] = '|cFFE76100[Circle]|r',
+                ['Star'] = '|cFFF7EF52[Star]|r',
+            }
+
+            local bw_icon = bw_icon_replace[name]
+            
+            if bw_icon then
+                name = bw_icon
+            end
+
             line = line .. name .. ' ' .. separator
         end
 

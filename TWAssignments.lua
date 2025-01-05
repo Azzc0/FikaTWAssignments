@@ -582,6 +582,17 @@ TWA:SetScript("OnEvent", function()
 
         tinsert(UISpecialFrames, "TWA_Main") --makes window close with Esc key
         tinsert(UISpecialFrames, "TWA_RosterManager")
+
+        -- Register slash command for template reassign
+        SLASH_TWAREPLACE1 = '/twareplace'
+        SlashCmdList["TWAREPLACE"] = function(msg)
+            local currentAssignee, newAssignee = strsplit(" ", msg, 2)
+            if currentAssignee and newAssignee then
+                TWA.ReplaceAssigneeInPresets(currentAssignee, newAssignee)
+            else
+                twaprint("Usage: /twareplace <currentAssignee> <newAssignee>")
+            end
+        end
     end
 
     if event == "PLAYER_LOGIN" then
@@ -2254,4 +2265,27 @@ function pairsByKeys(t, f)
         end
     end
     return iter
+end
+
+-- Helper function to capitalize first letter
+function TWA.Capitalize(str)
+    return string.gsub(str,"^%l", string.upper)
+end
+
+-- Function to replace assignee in all presets
+function TWA.ReplaceAssigneeInPresets(currentAssignee, newAssignee)
+    local currentLower = string.lower(currentAssignee)
+    local formattedNewAssignee = TWA.Capitalize(string.lower(newAssignee))
+    
+    for template, data in pairs(TWA_PRESETS) do
+        for rowIndex, row in ipairs(data) do
+            for colIndex, assignee in ipairs(row) do
+                if string.lower(assignee) == currentLower then
+                    TWA_PRESETS[template][rowIndex][colIndex] = formattedNewAssignee
+                    print('Replaced ' .. assignee .. ' with ' .. formattedNewAssignee .. ' in ' .. template)
+                end
+            end
+        end
+    end
+    twaprint('Replaced ' .. currentAssignee .. ' with ' .. newAssignee .. ' in all presets.')
 end

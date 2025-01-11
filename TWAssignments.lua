@@ -1634,18 +1634,18 @@ function HandleORATanks()
             tankSet[data[2]] = true
         end
 
-        -- Tank column 2
-        if data[3] ~= "-" and not tankSet[data[3]] then
-            print(data[3])
-            table.insert(uniqueTanks, data[3])
-            tankSet[data[3]] = true
-        end
+        -- -- Tank column 2
+        -- if data[3] ~= "-" and not tankSet[data[3]] then
+        --     print(data[3])
+        --     table.insert(uniqueTanks, data[3])
+        --     tankSet[data[3]] = true
+        -- end
 
-        -- Tank column 3
-        if data[4] ~= "-" and not tankSet[data[4]] then
-            print(data[4])
-            table.insert(uniqueTanks, data[4])
-            tankSet[data[4]] = true
+        -- -- Tank column 3
+        -- if data[4] ~= "-" and not tankSet[data[4]] then
+        --     print(data[4])
+        --     table.insert(uniqueTanks, data[4])
+        --     tankSet[data[4]] = true
         end
     end
 

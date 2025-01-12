@@ -1657,7 +1657,7 @@ function HandleORATanks()
         --     print(data[4])
         --     table.insert(uniqueTanks, data[4])
         --     tankSet[data[4]] = true
-        end
+        -- end
     end
 
     -- Iterate over the unique tank names

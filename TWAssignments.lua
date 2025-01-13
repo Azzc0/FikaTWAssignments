@@ -341,16 +341,16 @@ TWA:SetScript("OnEvent", function()
         tinsert(UISpecialFrames, "TWA_Main") --makes window close with Esc key
         tinsert(UISpecialFrames, "TWA_RosterManager")
 
-        -- Register slash command for template reassign
-        SLASH_TWAREPLACE1 = '/twareplace'
-        SlashCmdList["TWAREPLACE"] = function(msg)
-            local currentAssignee, newAssignee = strsplit(" ", msg, 2)
-            if currentAssignee and newAssignee then
-                TWA.ReplaceAssigneeInPresets(currentAssignee, newAssignee)
-            else
-                twaprint("Usage: /twareplace <currentAssignee> <newAssignee>")
-            end
-        end
+        -- -- Register slash command for template reassign; Doesn't work currently, needs access to a strsplit function
+        -- SLASH_TWAREPLACE1 = '/twareplace'
+        -- SlashCmdList["TWAREPLACE"] = function(msg)
+        --     local currentAssignee, newAssignee = strsplit(" ", msg, 2)
+        --     if currentAssignee and newAssignee then
+        --         TWA.ReplaceAssigneeInPresets(currentAssignee, newAssignee)
+        --     else
+        --         twaprint("Usage: /twareplace <currentAssignee> <newAssignee>")
+        --     end
+        -- end
     end
 
     if event == "PLAYER_LOGIN" then
@@ -1150,6 +1150,57 @@ function TWA.change(xy, to, sender, dontOpenDropdown)
     TWA.PopulateTWA()
 end
 
+-- Function to initialize special cells
+function TWA.InitializeSpecialCells()
+    TWA.specialCells = {}
+
+    for i = 1, 8 do
+        local cellName = "TWA_SpecialCell" .. i
+        local cell = _G[cellName]
+        if cell then
+            TWA.specialCells[i] = cell
+        else
+            twaprint("Error: Special cell " .. cellName .. " not found.")
+        end
+    end
+end
+
+-- Function to set the text of a special cell
+function TWA.SetSpecialCellText(index, text)
+    if TWA.specialCells and TWA.specialCells[index] then
+        TWA.specialCells[index].text:SetText(text)
+    else
+        twaprint("Error: Special cell " .. index .. " not found.")
+    end
+end
+
+
+-- Function to initialize special cells
+function TWA.InitializeSpecialCells()
+    TWA.specialCells = {}
+
+    for i = 1, 8 do
+        local cellName = "TWA_SpecialCell" .. i
+        local cell = _G[cellName]
+        if cell then
+            TWA.specialCells[i] = cell
+        else
+            twaprint("Error: Special cell " .. cellName .. " not found.")
+        end
+    end
+end
+
+-- Function to set the text of a special cell
+function TWA.SetSpecialCellText(index, text)
+    if TWA.specialCells and TWA.specialCells[index] then
+        TWA.specialCells[index].text:SetText(text)
+    else
+        twaprint("Error: Special cell " .. index .. " not found.")
+    end
+end
+
+
+
 function TWA.PopulateTWA()
     twadebug('PopulateTWA')
 
@@ -1815,4 +1866,22 @@ function TWA.restoreDefaultTemplate()
     end
 
     twaprint("Restored default template: " .. TWA.loadedTemplate)
+end
+
+-- Ensure TWA table is initialized
+TWA = TWA or {}
+
+-- Example function that might be causing the issue
+function TWA.SomeFunction()
+    -- Ensure TWA.data is initialized
+    TWA.data = TWA.data or {}
+
+    -- Example line that might be causing the issue
+    local value = TWA.data.someKey -- Ensure TWA.data.someKey is initialized
+    if not value then
+        TWA.data.someKey = {}
+        value = TWA.data.someKey
+    end
+
+    -- Rest of the function logic
 end

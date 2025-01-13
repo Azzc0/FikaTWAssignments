@@ -5,4 +5,5 @@
 ## Notes: Raid Tank/Healer Assignments
 ## SavedVariables: TWA_DATA, TWA_PRESETS, TWA_POSITION, TWA_ROSTER, TWA_FOREIGN_ROSTERS
 ChatThrottleLib\ChatThrottleLib.lua
+TWA_Templates.lua
 TWAssignments.xml

@@ -1445,7 +1445,7 @@ end
 
 function SpamRaid_OnClick()
     if not TWA_CanMakeChanges() then return end
-    ChatThrottleLib:SendChatMessage("BULK", "TWA", "======= RAID ASSIGNMENTS =======", "RAID_WARNING")
+    ChatThrottleLib:SendChatMessage("BULK", "TWA", "Assignments: " .. TWA.loadedTemplate, "RAID_WARNING")
 
     -- Assign new tanks in ORA2
     HandleORATanks()
@@ -1534,7 +1534,7 @@ function Reset_OnClick()
     if not TWA_CanMakeChanges() then return end
 
     StaticPopupDialogs["TWA_RESET_CONFIRM"] = {
-        text = "Are you sure you want to clear current assignments?",
+        text = "Are you sure you want to reset current assignments?",
         button1 = ACCEPT,
         button2 = CANCEL,
         OnAccept = function()
@@ -1706,25 +1706,55 @@ function pairsByKeys(t, f)
     return iter
 end
 
+
 -- Helper function to capitalize first letter
-function TWA.Capitalize(str)
-    return string.gsub(str,"^%l", string.upper)
+local function strCapitalize(str)
+    return string.upper(string.sub(str, 1, 1)) .. string.lower(string.sub(str, 2))
 end
 
--- Function to replace assignee in all presets
-function TWA.ReplaceAssigneeInPresets(currentAssignee, newAssignee)
+-- Function to replace assignee in all data
+function TWA.ReplaceAssigneeInData(currentAssignee, newAssignee)
+    if not currentAssignee or not newAssignee then
+        twaprint("Error: Both currentAssignee and newAssignee must be provided.")
+        return
+    end
+
     local currentLower = string.lower(currentAssignee)
-    local formattedNewAssignee = TWA.Capitalize(string.lower(newAssignee))
+    local formattedNewAssignee = strCapitalize(string.lower(newAssignee))
     
-    for template, data in pairs(TWA_PRESETS) do
-        for rowIndex, row in ipairs(data) do
+    for rowIndex, row in ipairs(TWA_DATA) do
+        if type(row) == "table" then
             for colIndex, assignee in ipairs(row) do
                 if string.lower(assignee) == currentLower then
-                    TWA_PRESETS[template][rowIndex][colIndex] = formattedNewAssignee
-                    print('Replaced ' .. assignee .. ' with ' .. formattedNewAssignee .. ' in ' .. template)
+                    local xy = rowIndex * 100 + colIndex
+                    TWA.change(xy, formattedNewAssignee, "system", true)
+                    print('Replaced ' .. assignee .. ' with ' .. formattedNewAssignee)
                 end
             end
         end
     end
-    twaprint('Replaced ' .. currentAssignee .. ' with ' .. newAssignee .. ' in all presets.')
+    twaprint('Replaced ' .. currentAssignee .. ' with ' .. newAssignee .. ' in all data.')
+end
+
+
+-- Function to populate TWA_DATA with the loaded template
+function TWA.PopulateDataWithTemplate(templateName)
+    local template = twa_templates[templateName]
+    if not template then
+        twaprint("Error: Template " .. templateName .. " not found.")
+        return
+    end
+
+    -- Clear existing data
+    TWA_DATA = {}
+
+    for rowIndex, row in ipairs(template) do
+        TWA_DATA[rowIndex] = {}
+        for colIndex, assignee in ipairs(row) do
+            local xy = rowIndex * 100 + colIndex
+            TWA.change(xy, assignee, "system", true)
+        end
+    end
+
+    twaprint("Populated TWA_DATA with template: " .. templateName)
 end

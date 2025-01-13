@@ -9,6 +9,7 @@
     <Script file="TWASync.lua" />
     <Script file="TWAssignments.lua" />
     <Script file="TWRosterFrame.lua" />
+    <Script file="TWA_Templates.lua" />
 
     <Frame name="TWRow" virtual="true">
         <Size>

@@ -1534,11 +1534,11 @@ function Reset_OnClick()
     if not TWA_CanMakeChanges() then return end
 
     StaticPopupDialogs["TWA_RESET_CONFIRM"] = {
-        text = "Are you sure you want to reset current assignments?",
+        text = "Are you sure you want to clear current assignments?",
         button1 = ACCEPT,
         button2 = CANCEL,
         OnAccept = function()
-            TWA.sync.SendAddonMessage(TWA.MESSAGE.Reset)
+            TWA.restoreDefaultTemplate()
         end,
         timeout = 0,
         whileDead = true,
@@ -1705,7 +1705,36 @@ function pairsByKeys(t, f)
     end
     return iter
 end
+-- Deep copy function
+local function deepCopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepCopy(orig_key)] = deepCopy(orig_value)
+        end
+        setmetatable(copy, deepCopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
 
+-- Create an immutable copy of twa_templates on addon load
+TWA.ImmutableTemplates = deepCopy(twa_templates)
+
+-- Example function to access the immutable templates
+function TWA.GetImmutableTemplate(templateName)
+    return TWA.ImmutableTemplates[templateName]
+end
+
+-- Initialize TWA_DATA if not already initialized
+if not TWA_DATA then
+    TWA_DATA = {
+        [1] = { '-', '-', '-', '-', '-', '-', '-' },
+    }
+end
 
 -- Helper function to capitalize first letter
 local function strCapitalize(str)
@@ -1736,10 +1765,9 @@ function TWA.ReplaceAssigneeInData(currentAssignee, newAssignee)
     twaprint('Replaced ' .. currentAssignee .. ' with ' .. newAssignee .. ' in all data.')
 end
 
-
--- Function to populate TWA_DATA with the loaded template
+-- Function to populate TWA_DATA with the immutable version of the loaded template
 function TWA.PopulateDataWithTemplate(templateName)
-    local template = twa_templates[templateName]
+    local template = TWA.GetImmutableTemplate(templateName)
     if not template then
         twaprint("Error: Template " .. templateName .. " not found.")
         return
@@ -1756,5 +1784,35 @@ function TWA.PopulateDataWithTemplate(templateName)
         end
     end
 
+    -- Store the currently loaded template name
+    TWA.loadedTemplate = templateName
+
     twaprint("Populated TWA_DATA with template: " .. templateName)
+end
+
+-- Function to restore the default template
+function TWA.restoreDefaultTemplate()
+    if not TWA.loadedTemplate then
+        twaprint("Error: No template is currently loaded.")
+        return
+    end
+
+    local immutableTemplate = TWA.GetImmutableTemplate(TWA.loadedTemplate)
+    if not immutableTemplate then
+        twaprint("Error: Immutable template " .. TWA.loadedTemplate .. " not found.")
+        return
+    end
+
+    -- Clear existing data
+    TWA_DATA = {}
+
+    for rowIndex, row in ipairs(immutableTemplate) do
+        TWA_DATA[rowIndex] = {}
+        for colIndex, assignee in ipairs(row) do
+            local xy = rowIndex * 100 + colIndex
+            TWA.change(xy, assignee, "system", true)
+        end
+    end
+
+    twaprint("Restored default template: " .. TWA.loadedTemplate)
 end

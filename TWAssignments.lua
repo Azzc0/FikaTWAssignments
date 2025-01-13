@@ -1313,27 +1313,33 @@ end
 TWA.currentRow = 0
 TWA.currentCell = 0
 
+function targetDropdown()
+    UIDropDownMenu_Initialize(TWATargetsDropDown, TWA.buildTargetsDropdown, "MENU");
+    ToggleDropDownMenu(1, nil, TWATargetsDropDown, "cursor", 2, 3);
+end
+
+function tankDropdown()
+    UIDropDownMenu_Initialize(TWATanksDropDown, TWA.buildTanksDropdown, "MENU");
+    ToggleDropDownMenu(1, nil, TWATanksDropDown, "cursor", 2, 3);
+end
+
+function healerDropdown()
+    UIDropDownMenu_Initialize(TWAHealersDropDown, TWA.buildHealersDropdown, "MENU");
+    ToggleDropDownMenu(1, nil, TWAHealersDropDown, "cursor", 2, 3);
+end 
+
 function TWCell_OnClick(id)
     if not TWA_CanMakeChanges() then return end
     TWA.currentRow = math.floor(id / 100)
     TWA.currentCell = id - TWA.currentRow * 100
 
     --targets
-    if TWA.currentCell == 1 then
-        UIDropDownMenu_Initialize(TWATargetsDropDown, TWA.buildTargetsDropdown, "MENU");
-        ToggleDropDownMenu(1, nil, TWATargetsDropDown, "cursor", 2, 3);
-    end
-
-    --tanks
-    if TWA.currentCell == 2 or TWA.currentCell == 3 or TWA.currentCell == 4 then
-        UIDropDownMenu_Initialize(TWATanksDropDown, TWA.buildTanksDropdown, "MENU");
-        ToggleDropDownMenu(1, nil, TWATanksDropDown, "cursor", 2, 3);
-    end
-
-    --healers
-    if TWA.currentCell == 5 or TWA.currentCell == 6 or TWA.currentCell == 7 then
-        UIDropDownMenu_Initialize(TWAHealersDropDown, TWA.buildHealersDropdown, "MENU");
-        ToggleDropDownMenu(1, nil, TWAHealersDropDown, "cursor", 2, 3);
+    if TWA.currentCell == 1 then 
+        targetDropdown() 
+    elseif TWA.currentCell < 4 then
+        tankDropdown()
+    else
+        healerDropdown()
     end
 
     if IsControlKeyDown() then
@@ -1542,6 +1548,7 @@ function Reset_OnClick()
     StaticPopup_Show("TWA_RESET_CONFIRM")
 end
 
+
 function TWA.WipeTable()
     for i = 1, table.getn(TWA.data) do
         for j = 2, 7 do -- skip target col
@@ -1565,6 +1572,8 @@ function TWA.Reset()
     }
     TWA.PopulateTWA()
 end
+
+
 
 function CloseTWA_OnClick()
     getglobal('TWA_Main'):Hide()

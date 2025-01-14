@@ -1,3 +1,16 @@
+features:
+Do some more UI changes. Buttons are currently floating outside windows due to me being lazy.
+
+Add a raid dropdown to make room for more templates per raid in the templates submenu.
+
+Add groups as assignees.
+
+Implement quickfill to replace some placeholder assignments.
+
+Add a next/previous template button.
+
+Make a fuBar plugin.
+
 bugs:
 * full sync needs to broadcast which template to use
 

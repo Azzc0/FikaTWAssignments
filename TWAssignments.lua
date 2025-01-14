@@ -1293,6 +1293,7 @@ function Buttoane_OnLeave(id)
     getglobal('TWRow' .. index):SetBackdropColor(0, 0, 0, .2)
 end
 
+
 function TWAHandleRosterEditBox(editBox)
     local scrollBar = getglobal(editBox:GetParent():GetName() .. "ScrollBar")
     editBox:GetParent():UpdateScrollChildRect();
@@ -1346,6 +1347,33 @@ function TWCell_OnClick(id)
         CloseDropDownMenus()
         TWA.changeCell(TWA.currentRow * 100 + TWA.currentCell, "Clear")
     end
+end
+
+TWA.qfData = {}
+
+function TWCellQF_OnClick(id)
+    if not TWA_CanMakeChanges() then return end
+    twaprint(id)
+    local row = math.floor(id / 100)
+    local cell = id - row * 100
+
+    -- Handle the click event for TWCellQF
+    -- Example: Store the value in the new table
+    TWA.qfData[row] = TWA.qfData[row] or {}
+    TWA.qfData[row][cell] = "QFAssignee" -- Replace "SomeValue" with the actual value
+
+    -- Update the UI or perform other actions as needed
+    print("TWCellQF clicked: row=" .. row .. ", cell=" .. cell)
+end
+
+function ButtoaneQF_OnEnter(id)
+    local row = math.floor(id / 100)
+    getglobal('TWRow' .. row):SetBackdropColor(1, 1, 1, .2)
+end
+
+function ButtoaneQF_OnLeave(id)
+    local row = math.floor(id / 100)
+    getglobal('TWRow' .. row):SetBackdropColor(0, 0, 0, .2)
 end
 
 function ForceSync_OnClick()
@@ -1577,15 +1605,23 @@ end
 
 function CloseTWA_OnClick()
     getglobal('TWA_Main'):Hide()
-    TWA_CloseRosterFrame()
+    getglobal('TWA_RosterManager'):Hide()
+    getglobal('QuickFill'):Hide()
 end
 
 function toggle_TWA_Main()
     if (getglobal('TWA_Main'):IsVisible()) then
-        getglobal('TWA_Main'):Hide()
-        getglobal('TWA_RosterManager'):Hide()
+        CloseTWA_OnClick()
     else
         getglobal('TWA_Main'):Show()
+    end
+end
+
+function ToggleQuickFill_OnClick()
+    if getglobal('QuickFill'):IsVisible() then
+        getglobal('QuickFill'):Hide()
+    else
+        getglobal('QuickFill'):Show()
     end
 end
 

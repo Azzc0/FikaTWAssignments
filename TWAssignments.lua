@@ -1337,7 +1337,7 @@ function TWCell_OnClick(id)
     --targets
     if TWA.currentCell == 1 then 
         targetDropdown() 
-    elseif TWA.currentCell < 4 then
+    elseif TWA.currentCell < 5 then
         tankDropdown()
     else
         healerDropdown()

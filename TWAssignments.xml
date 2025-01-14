@@ -15,7 +15,7 @@
 
     <Frame name="TWRow" virtual="true">
         <Size>
-            <AbsDimension x="590" y="20" />
+            <AbsDimension x="560" y="20" />
         </Size>
         <Anchors>
             <Anchor point="TOP" />
@@ -78,7 +78,7 @@
                     <Anchors>
                         <Anchor point="RIGHT">
                             <Offset>
-                                <AbsDimension x="-4" y="0" />
+                                <AbsDimension x="0" y="0" />
                             </Offset>
                         </Anchor>
                     </Anchors>
@@ -345,7 +345,7 @@
     <Frame name="TWA_Main" hidden="true" toplevel="true" parent="UIParent" movable="true"
         enableMouse="true" resizable="false">
         <Size>
-            <AbsDimension x="605" y="100" />
+            <AbsDimension x="595" y="0" />
         </Size>
         <Anchors>
             <Anchor point="CENTER" />
@@ -359,41 +359,60 @@
                 <AbsValue val="16" />
             </EdgeSize>
         </Backdrop>
-        <Layers>
-            <Layer level="OVERLAY">
-                <FontString name="$parentText" inherits="GameFontNormal" text=" TARGET"
-                    hidden="false">
-                    <Anchors>
-                        <Anchor point="TOPLEFT">
-                            <Offset>
-                                <AbsDimension x="5" y="-50" />
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                </FontString>
-                <FontString name="$parentText" inherits="GameFontNormal"
-                    text="| TANKS" hidden="false">
-                    <Anchors>
-                        <Anchor point="TOPLEFT">
-                            <Offset>
-                                <AbsDimension x="86" y="-50" />
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                </FontString>
-                <FontString name="$parentText" inherits="GameFontNormal"
-                    text="| HEALERS" hidden="false">
-                    <Anchors>
-                        <Anchor point="TOPLEFT">
-                            <Offset>
-                                <AbsDimension x="335" y="-50" />
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                </FontString>
-            </Layer>
-        </Layers>
         <Frames>
+            <Frame name="$parentTopCell" inherits="BasicFrameTemplateWithInset">
+                <Size>
+                    <AbsDimension x="85" y="25" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="10" y="-10" />
+                </Anchors>
+                <Frames>
+                    <!-- Define the new button row and headers -->
+                    <Frame name="$parentTopCell1" inherits="BasicFrameTemplateWithInset">
+                        <Size>
+                            <AbsDimension x="5" y="25" />
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTopCell" relativePoint="TOPLEFT" x="10" y="-10" />
+                        </Anchors>
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                            <Color r="1" g="0" b="0" a="0.5" />
+                        </Backdrop>
+                    </Frame>
+                    <Frame name="$parentTopCell2" inherits="BasicFrameTemplateWithInset">
+                        <Size>
+                            <AbsDimension x="100" y="20" />
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="10" y="-10" />
+                        </Anchors>
+
+                    </Frame>
+                    <Frame name="$parentTopCell3" inherits="BasicFrameTemplateWithInset">
+                        <Size>
+                            <AbsDimension x="245" y="20" />
+                        </Size>
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTopCell2" relativePoint="RIGHT" x="10" y="0" />
+                        </Anchors>
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                            <Color r="0" g="0" b="1" a="0.5" />
+                        </Backdrop>
+                    </Frame>
+                    <Frame name="$parentTopCell4" inherits="BasicFrameTemplateWithInset">
+                        <Size>
+                            <AbsDimension x="235" y="20" />
+                        </Size>
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTopCell3" relativePoint="RIGHT" x="10" y="0" />
+                        </Anchors>
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                            <Color r="0" g="1" b="0" a="0.5" />
+                        </Backdrop>
+                    </Frame>
+                </Frames>
+            </Frame>
             <!-- Define the tab buttons  on top of frame-->
             <Button name="$parentTab1" inherits="UIPanelButtonTemplate" text="Announce">
                 <Size>
@@ -402,6 +421,40 @@
                 <Anchors>
                     <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="130" y="7" />
                 </Anchors>
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentText" inherits="GameFontNormal" text="           TARGET"
+                                    hidden="false">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT">
+                                            <Offset>
+                                                <AbsDimension x="5" y="-50" />
+                                            </Offset>
+                                        </Anchor>
+                                    </Anchors>
+                                </FontString>
+                                <FontString name="$parentText" inherits="GameFontNormal"
+                                    text="                                      TANKS" hidden="false">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT">
+                                            <Offset>
+                                                <AbsDimension x="86" y="-50" />
+                                            </Offset>
+                                        </Anchor>
+                                    </Anchors>
+                                </FontString>
+                                <FontString name="$parentText" inherits="GameFontNormal"
+                                    text="                                      HEALERS" hidden="false">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT">
+                                            <Offset>
+                                                <AbsDimension x="335" y="-50" />
+                                            </Offset>
+                                        </Anchor>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
                 <Scripts>
                     <OnClick>
                         SpamRaid_OnClick()

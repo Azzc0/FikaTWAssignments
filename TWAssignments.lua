@@ -1168,7 +1168,7 @@ function TWA.PopulateTWA()
 
         TWA.rows[index]:SetBackdropColor(0, 0, 0, .2);
 
-        TWA.rows[index]:SetPoint("TOP", getglobal("TWA_Main"), "TOP", 0, -45 - index * 21)
+        TWA.rows[index]:SetPoint("TOP", getglobal("TWA_Main"), "TOP", 0, -25 - index * 21)
         if not TWA.cells[index] then
             TWA.cells[index] = {}
         end
@@ -1269,7 +1269,7 @@ function TWA.PopulateTWA()
         end
     end
 
-    getglobal('TWA_Main'):SetHeight(70 + table.getn(TWA.data) * 21)
+    getglobal('TWA_Main'):SetHeight(50 + table.getn(TWA.data) * 21)
     TWA_DATA = TWA.data
 end
 

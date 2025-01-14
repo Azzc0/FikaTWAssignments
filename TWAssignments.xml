@@ -11,6 +11,8 @@
     <Script file="TWAssignments.lua" />
     <Script file="TWRosterFrame.lua" />
 
+    <!-- Cell and button templates -->
+
     <Frame name="TWRow" virtual="true">
         <Size>
             <AbsDimension x="590" y="20" />
@@ -21,9 +23,9 @@
         <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
         </Backdrop>
         <Frames>
-            <Button name="$parentCloseRow" inherits="UIPanelCloseButton">
+            <Button name="$parentCloseRow" inherits="UIPanelCloseButton" hidden="true">
                 <Size>
-                    <AbsDimension x="22" y="22" />
+                    <AbsDimension x="0" y="0" />
                 </Size>
                 <Anchors>
                     <Anchor point="RIGHT">
@@ -392,6 +394,125 @@
             </Layer>
         </Layers>
         <Frames>
+            <!-- Define the tab buttons  on top of frame-->
+            <Button name="$parentTab1" inherits="UIPanelButtonTemplate" text="Announce">
+                <Size>
+                    <AbsDimension x="80" y="22" />
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="130" y="7" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        SpamRaid_OnClick()
+                        CloseDropDownMenus()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parentTab2" inherits="UIPanelButtonTemplate" text="Force sync">
+                <Size>
+                    <AbsDimension x="70" y="22" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT" x="10" y="0" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        ForceSync_OnClick()
+                        CloseDropDownMenus()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parentTab3" inherits="UIPanelButtonTemplate" text="Sync BW">
+                <Size>
+                    <AbsDimension x="60" y="22" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT" x="10" y="0" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        SyncBW_OnClick()
+                        CloseDropDownMenus()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parentTab4" inherits="UIPanelButtonTemplate" text="Save">
+                <Size>
+                    <AbsDimension x="40" y="22" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab3" relativePoint="RIGHT" x="10" y="0" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        SavePreset_OnClick()
+                        CloseDropDownMenus()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parentTab5" inherits="UIPanelButtonTemplate" text="Load">
+                <Size>
+                    <AbsDimension x="40" y="22" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab4" relativePoint="RIGHT" x="10" y="0" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        LoadPreset_OnClick()
+                        CloseDropDownMenus()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parentTab6" inherits="UIPanelButtonTemplate" text="Roster">
+                <Size>
+                    <AbsDimension x="55" y="22" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab5" relativePoint="RIGHT" x="10" y="0" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        TWARoster_OnClick()
+                        CloseDropDownMenus()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <!-- <Button name="$parentTab7" inherits="UIPanelButtonTemplate" text="Quick Fill">
+                <Size>
+                    <AbsDimension x="65" y="22" />
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-50" y="10" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        Options_OnClick()
+                        CloseDropDownMenus()
+                    </OnClick>
+                </Scripts>
+            </Button> -->
+
+            <!-- Define the tab content frames -->
+            <Frame name="$parentTab1Content" hidden="false">
+                <Size>
+                    <AbsDimension x="280" y="360" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-30" />
+                </Anchors>
+                <!-- Add content for Tab 1 here -->
+            </Frame>
+            <Frame name="$parentTab2Content" hidden="true">
+                <Size>
+                    <AbsDimension x="280" y="360" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-30" />
+                </Anchors>
+                <!-- Add content for Tab 2 here -->
+            </Frame>
             <Button name="TWA_Minimap" movable="true" parent="UIParent" enableMouse="true"
                 toplevel="true" frameStrata="LOW">
                 <Size x="33" y="33" />
@@ -468,86 +589,7 @@
                 </Scripts>
             </Button>
             <!-- ROW 1 -->
-            <!-- + -->
-            <Button name="$parentAddLine" inherits="UIPanelButtonTemplate2" text="+">
-                <Size>
-                    <AbsDimension x="30" y="20" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPLEFT">
-                        <Offset>
-                            <AbsDimension x="5" y="-5" />
-                        </Offset>
-                    </Anchor>
-                </Anchors>
-                <Scripts>
-                    <OnClick>
-                        AddLine_OnClick()
-                        CloseDropDownMenus()
-                    </OnClick>
-                </Scripts>
-            </Button>
-            <!-- Load -->
-            <Button name="$parentForceSync" inherits="UIPanelButtonTemplate2"
-                text="Force Sync">
-                <Size>
-                    <AbsDimension x="100" y="20" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPLEFT">
-                        <Offset>
-                            <AbsDimension x="35" y="-5" />
-                        </Offset>
-                    </Anchor>
-                </Anchors>
-                <Scripts>
-                    <OnClick>
-                        ForceSync_OnClick()
-                        CloseDropDownMenus()
-                    </OnClick>
-                </Scripts>
-            </Button>
-            <!-- Load -->
-            <Button name="$parentLoadPreset" inherits="UIPanelButtonTemplate2"
-                text="Load Assignments">
-                <Size>
-                    <AbsDimension x="140" y="20" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPRIGHT">
-                        <Offset>
-                            <AbsDimension x="-320" y="-5" />
-                        </Offset>
-                    </Anchor>
-                </Anchors>
-                <Scripts>
-                    <OnClick>
-                        LoadPreset_OnClick()
-                        CloseDropDownMenus()
-                    </OnClick>
-                </Scripts>
-            </Button>
-            <!-- Save -->
-            <Button name="$parentSavePreset" inherits="UIPanelButtonTemplate2"
-                text="Save Assignments">
-                <Size>
-                    <AbsDimension x="140" y="20" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPRIGHT">
-                        <Offset>
-                            <AbsDimension x="-180" y="-5" />
-                        </Offset>
-                    </Anchor>
-                </Anchors>
-                <Scripts>
-                    <OnClick>
-                        SavePreset_OnClick()
-                        CloseDropDownMenus()
-                    </OnClick>
-                </Scripts>
-            </Button>
-            <!-- Templates -->
+             <!-- Templates -->
             <Button name="$parentTemplates" inherits="UIPanelButtonTemplate2" text="Templates">
                 <Size>
                     <AbsDimension x="80" y="20" />
@@ -603,64 +645,6 @@
                     </OnClick>
                 </Scripts>
             </Button>
-            <!-- ROW 2 -->
-            <!-- Announce -->
-            <Button name="$parentSpamRaid" inherits="UIPanelButtonTemplate2" text="Announce">
-                <Size>
-                    <AbsDimension x="80" y="20" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPLEFT">
-                        <Offset>
-                            <AbsDimension x="5" y="-25" />
-                        </Offset>
-                    </Anchor>
-                </Anchors>
-                <Scripts>
-                    <OnClick>
-                        SpamRaid_OnClick()
-                        CloseDropDownMenus()
-                    </OnClick>
-                </Scripts>
-            </Button>
-            <!-- Sync BW -->
-            <Button name="$parentSyncBW" inherits="UIPanelButtonTemplate2" text="Sync BW">
-                <Size>
-                    <AbsDimension x="80" y="20" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPLEFT">
-                        <Offset>
-                            <AbsDimension x="85" y="-25" />
-                        </Offset>
-                    </Anchor>
-                </Anchors>
-                <Scripts>
-                    <OnClick>
-                        SyncBW_OnClick()
-                        CloseDropDownMenus()
-                    </OnClick>
-                </Scripts>
-            </Button>
-            <!-- Roster -->
-            <Button name="$parentRoster" inherits="UIPanelButtonTemplate2" text="Roster">
-                <Size>
-                    <AbsDimension x="80" y="20" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPLEFT">
-                        <Offset>
-                            <AbsDimension x="165" y="-25" />
-                        </Offset>
-                    </Anchor>
-                </Anchors>
-                <Scripts>
-                    <OnClick>
-                        TWARoster_OnClick()
-                        CloseDropDownMenus()
-                    </OnClick>
-                </Scripts>
-            </Button>
         </Frames>
         <Scripts>
             <OnLoad>
@@ -679,9 +663,6 @@
             <OnMouseUp>
                 CloseDropDownMenus()
             </OnMouseUp>
-            <!-- <OnHide>
-                getglobal('TWA_RosterManager'):Hide()
-            </OnHide> -->
         </Scripts>
     </Frame>
 </Ui>

@@ -1349,33 +1349,6 @@ function TWCell_OnClick(id)
     end
 end
 
-TWA.qfData = {}
-
-function TWCellQF_OnClick(id)
-    if not TWA_CanMakeChanges() then return end
-    twaprint(id)
-    local row = math.floor(id / 100)
-    local cell = id - row * 100
-
-    -- Handle the click event for TWCellQF
-    -- Example: Store the value in the new table
-    TWA.qfData[row] = TWA.qfData[row] or {}
-    TWA.qfData[row][cell] = "QFAssignee" -- Replace "SomeValue" with the actual value
-
-    -- Update the UI or perform other actions as needed
-    print("TWCellQF clicked: row=" .. row .. ", cell=" .. cell)
-end
-
-function ButtoaneQF_OnEnter(id)
-    local row = math.floor(id / 100)
-    getglobal('TWRow' .. row):SetBackdropColor(1, 1, 1, .2)
-end
-
-function ButtoaneQF_OnLeave(id)
-    local row = math.floor(id / 100)
-    getglobal('TWRow' .. row):SetBackdropColor(0, 0, 0, .2)
-end
-
 function ForceSync_OnClick()
     if not TWA_CanMakeChanges() then return end
 

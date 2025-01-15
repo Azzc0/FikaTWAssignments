@@ -1009,16 +1009,15 @@ function TWA.buildTanksDropdown()
         separator.disabled = true
         UIDropDownMenu_AddButton(separator);
 
-        -- local addRegular = {};
-        -- addRegular.text = "|c0000ff00Add Regular"
-        -- addRegular.disabled = false
-        -- addRegular.isTitle = false
-        -- addRegular.notCheckable = true
-        -- addRegular.func = TWA.addRegularClicked
-        -- addRegular.arg1 = TWA.currentRow * 100 + TWA.currentCell
-        -- UIDropDownMenu_AddButton(addRegular, UIDROPDOWNMENU_MENU_LEVEL);
+        -- Add the "Groups" menu item
+        local Groups = {}
+        Groups.text = "Groups"
+        Groups.notCheckable = true
+        Groups.hasArrow = true
+        Groups.value = "GroupsSubMenu"
+        UIDropDownMenu_AddButton(Groups, UIDROPDOWNMENU_MENU_LEVEL)
 
-        local clear = {};
+        local clear = {}
         clear.text = "Clear"
         clear.disabled = false
         clear.isTitle = false
@@ -1026,24 +1025,39 @@ function TWA.buildTanksDropdown()
         clear.func = TWA.changeCell
         clear.arg1 = TWA.currentRow * 100 + TWA.currentCell
         clear.arg2 = 'Clear'
-        UIDropDownMenu_AddButton(clear, UIDROPDOWNMENU_MENU_LEVEL);
+        UIDropDownMenu_AddButton(clear, UIDROPDOWNMENU_MENU_LEVEL)
     end
+
     if UIDROPDOWNMENU_MENU_LEVEL == 2 then
-        for i, tank in next, TWA.raid[UIDROPDOWNMENU_MENU_VALUE['key']] do
-            local Tanks = {}
-
-            local color = TWA.classColors[UIDROPDOWNMENU_MENU_VALUE['key']].c
-
-            if TWA.isPlayerOffline(tank) then
-                color = '|cffff0000'
+        if UIDROPDOWNMENU_MENU_VALUE == "GroupsSubMenu" then
+            for i = 1, 8 do
+                local groupIndex = i  -- Create a local copy of i
+                local groupInfo = {}
+                groupInfo.text = "Group" .. groupIndex
+                groupInfo.notCheckable = true
+                groupInfo.func = function()
+                    print("Selected Group" .. groupIndex)
+                    TWA.changeCell(TWA.currentRow * 100 + TWA.currentCell, "Group " .. groupIndex)
+                end
+                UIDropDownMenu_AddButton(groupInfo, UIDROPDOWNMENU_MENU_LEVEL)
             end
+        else
+            for i, tank in next, TWA.raid[UIDROPDOWNMENU_MENU_VALUE['key']] do
+                local Tanks = {}
 
-            Tanks.text = color .. tank
-            Tanks.checked = TWA.markOrPlayerUsed(tank)
-            Tanks.func = TWA.changeCell
-            Tanks.arg1 = TWA.currentRow * 100 + TWA.currentCell
-            Tanks.arg2 = tank
-            UIDropDownMenu_AddButton(Tanks, UIDROPDOWNMENU_MENU_LEVEL);
+                local color = TWA.classColors[UIDROPDOWNMENU_MENU_VALUE['key']].c
+
+                if TWA.isPlayerOffline(tank) then
+                    color = '|cffff0000'
+                end
+
+                Tanks.text = color .. tank
+                Tanks.checked = TWA.markOrPlayerUsed(tank)
+                Tanks.func = TWA.changeCell
+                Tanks.arg1 = TWA.currentRow * 100 + TWA.currentCell
+                Tanks.arg2 = tank
+                UIDropDownMenu_AddButton(Tanks, UIDROPDOWNMENU_MENU_LEVEL)
+            end
         end
     end
 end

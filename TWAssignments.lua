@@ -1825,3 +1825,70 @@ function TWA.restoreDefaultTemplate()
 
     twaprint("Restored default template: " .. TWA.loadedTemplate)
 end
+
+
+-- Function to switch to the next or previous template
+function TWA:SwitchTemplate(direction)
+    -- Debugging: Check if twa_templates is populated
+    if not twa_templates or next(twa_templates) == nil then
+        print("twa_templates is empty or not defined")
+        return
+    end
+
+    -- Get the list of template keys
+    local templateKeys = twa_template_order
+
+    -- Debugging: Print the template keys
+    if not templateKeys or next(templateKeys) == nil then
+        print("twa_template_order is empty or not defined")
+        return
+    end
+    print("Template keys:", table.concat(templateKeys, ", "))
+
+    -- Determine the current template index
+    local currentTemplateIndex = 1
+    if self.loadedTemplate then
+        for i, key in ipairs(templateKeys) do
+            if key == self.loadedTemplate then
+                currentTemplateIndex = i
+                break
+            end
+        end
+        if direction == "next" then
+            currentTemplateIndex = currentTemplateIndex + 1
+            if currentTemplateIndex > table.getn(templateKeys) then
+                currentTemplateIndex = 1
+            end
+        elseif direction == "previous" then
+            currentTemplateIndex = currentTemplateIndex - 1
+            if currentTemplateIndex < 1 then
+                currentTemplateIndex = table.getn(templateKeys)
+            end
+        end
+    end
+
+    -- Get the next or previous template key
+    local nextTemplateKey = templateKeys[currentTemplateIndex]
+
+    -- Debugging: Print the current template index and key
+    print("Current template index:", currentTemplateIndex)
+    print("Next template key:", nextTemplateKey)
+
+    -- Load the next or previous template
+    TWA.loadTemplate(nextTemplateKey, load)
+
+    -- Print the current template key for debugging
+    print("Switched to template:", nextTemplateKey)
+end
+
+-- Slash command to switch to the next template
+SLASH_TWANEXTTEMPLATE1 = "/twanexttemplate"
+SlashCmdList["TWANEXTTEMPLATE"] = function()
+    TWA:SwitchTemplate("next")
+end
+
+-- Slash command to switch to the previous template
+SLASH_TWAPREVTEMPLATE1 = "/twaprevtemplate"
+SlashCmdList["TWAPREVTEMPLATE"] = function()
+    TWA:SwitchTemplate("previous")
+end

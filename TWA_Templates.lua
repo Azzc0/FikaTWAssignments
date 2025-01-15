@@ -242,6 +242,43 @@ twa_templates = {
     },
 }
 
+-- Ordered list of templates for the cycle function
+twa_template_order = {
+    'trash1',
+    'trash2',
+    'trash3',
+    'trash4',
+    'trash5',
+    'gaar',
+    'domo',
+    'rag',
+    'razorgore',
+    'vael',
+    'lashlayer',
+    'chromaggus',
+    'nef',
+    'skeram',
+    'bugtrio',
+    'sartura',
+    'fankriss',
+    'huhu',
+    'twins',
+    'anub',
+    'faerlina',
+    'maexxna',
+    'noth',
+    'heigan',
+    'raz',
+    'gothik',
+    '4h',
+    'patchwerk',
+    'grobulus',
+    'gluth',
+    'thaddius',
+    'saph',
+    'kt'
+}
+
 function buildTemplatesDropdown()
     if UIDROPDOWNMENU_MENU_LEVEL == 1 then
         local Title = {}

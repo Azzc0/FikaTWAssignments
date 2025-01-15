@@ -439,6 +439,35 @@
                     </OnClick>
                 </Scripts>
             </Button>
+            <!-- Button with left arrow -->
+            <Button name="$parentTemplatesLeftArrow" inherits="UIPanelButtonTemplate" text="Prev">
+                <Size>
+                    <AbsDimension x="40" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTemplates" relativePoint="RIGHT" x="5" y="0" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        TWA:SwitchTemplate("previous")
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <!-- Button with right arrow -->
+            <Button name="$parentTemplatesRightArrow" inherits="UIPanelButtonTemplate" text="Next">
+                <Size>
+                    <AbsDimension x="40" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTemplatesLeftArrow" relativePoint="RIGHT" x="5" y="0" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        TWA:SwitchTemplate("next")
+                    </OnClick>
+                </Scripts>
+            </Button>
             <!-- Reset -->
             <!-- <Button name="$parentReset" inherits="UIPanelButtonTemplate2" text="|c00ff0000Reset">
                 <Size>

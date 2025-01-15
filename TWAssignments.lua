@@ -1269,7 +1269,7 @@ function TWA.PopulateTWA()
         end
     end
 
-    getglobal('TWA_Main'):SetHeight(50 + table.getn(TWA.data) * 21)
+    getglobal('TWA_Main'):SetHeight(75 + table.getn(TWA.data) * 21)
     TWA_DATA = TWA.data
 end
 

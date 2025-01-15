@@ -174,7 +174,18 @@
                         <Anchors>
                             <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="10" y="-10" />
                         </Anchors>
-
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                            <Color r="1" g="0" b="0" a="0.3" />
+                        </Backdrop>
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentTopCell3Text" inherits="GameFontNormal" text="Target">
+                                    <Anchors>
+                                        <Anchor point="CENTER" />
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
                     </Frame>
                     <Frame name="$parentTopCell3" inherits="BasicFrameTemplateWithInset">
                         <Size>
@@ -186,6 +197,15 @@
                         <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
                             <Color r="0" g="0" b="1" a="0.3" />
                         </Backdrop>
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentTopCell3Text" inherits="GameFontNormal" text="Tanks">
+                                    <Anchors>
+                                        <Anchor point="CENTER" />
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
                     </Frame>
                     <Frame name="$parentTopCell4" inherits="BasicFrameTemplateWithInset">
                         <Size>
@@ -197,51 +217,35 @@
                         <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
                             <Color r="0" g="1" b="0" a="0.3" />
                         </Backdrop>
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentTopCell3Text" inherits="GameFontNormal" text="Healers">
+                                    <Anchors>
+                                        <Anchor point="CENTER" />
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
                     </Frame>
                 </Frames>
             </Frame>
             <!-- Define the tab buttons  on top of frame-->
+            <frame name="$parentAnchor">
+                <Size>
+                    <AbsDimension x="5" y="5" />
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT"/>
+                </Anchors>
+            </frame>
             <Button name="$parentTab1" inherits="UIPanelButtonTemplate" text="Announce">
                 <Size>
                     <AbsDimension x="75" y="22" />
                 </Size>
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="130" y="7" />
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentAnchor" relativePoint="TOPRIGHT" />
+                    <Offset x="20" y="20" />
                 </Anchors>
-                        <Layers>
-                            <Layer level="OVERLAY">
-                                <FontString name="$parentText" inherits="GameFontNormal" text="        TARGET"
-                                    hidden="false">
-                                    <Anchors>
-                                        <Anchor point="TOPLEFT">
-                                            <Offset>
-                                                <AbsDimension x="5" y="-50" />
-                                            </Offset>
-                                        </Anchor>
-                                    </Anchors>
-                                </FontString>
-                                <FontString name="$parentText" inherits="GameFontNormal"
-                                    text="                                 TANKS" hidden="false">
-                                    <Anchors>
-                                        <Anchor point="TOPLEFT">
-                                            <Offset>
-                                                <AbsDimension x="86" y="-50" />
-                                            </Offset>
-                                        </Anchor>
-                                    </Anchors>
-                                </FontString>
-                                <FontString name="$parentText" inherits="GameFontNormal"
-                                    text="                                 HEALERS" hidden="false">
-                                    <Anchors>
-                                        <Anchor point="TOPLEFT">
-                                            <Offset>
-                                                <AbsDimension x="335" y="-50" />
-                                            </Offset>
-                                        </Anchor>
-                                    </Anchors>
-                                </FontString>
-                            </Layer>
-                        </Layers>
                 <Scripts>
                     <OnClick>
                         SpamRaid_OnClick()
@@ -319,13 +323,20 @@
                     </OnClick>
                 </Scripts>
             </Button>
-
+            <Frame name="$parentAnchor2"> 
+                <Size>
+                    <AbsDimension x="5" y="5" />
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="TWA_Main" relativePoint="BOTTOMRIGHT" x="-50" y="10" />
+                </Anchors>
+            </Frame>
             <Button name="$parentTab8" inherits="UIPanelButtonTemplate" text="|c00ff0000Reset">
                 <Size>
                     <AbsDimension x="60" y="22" />
                 </Size>
                 <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-50" y="10" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentAnchor2" relativePoint="TOPLEFT" x="-50" y="10" />
                 </Anchors>
                 <Scripts>
                     <OnClick>

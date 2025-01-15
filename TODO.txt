@@ -3,13 +3,15 @@ features:
 
 [ ] Add a raid dropdown to make room for more templates per raid in the templates submenu.
 
-[ ] Add groups as assignees.
+[x] Add groups as assignees.
 
-[ ] Implement quickfill to replace some placeholder assignments.
+[x] Implement quickfill to replace some placeholder assignments.
 
-[ ] Add a next/previous template button. Functionality has been added with TWA:SwitchTemplate() Accepts next/previous
+[x] Add a next/previous template button. Functionality has been added with TWA:SwitchTemplate() Accepts next/previous
 
 [ ] Make a fuBar plugin.
+
+[ ] Make additional templates for various trash packs and a few more bosses.
 
 bugs:
 * full sync needs to broadcast which template to use

@@ -331,6 +331,28 @@
                     <Anchor point="BOTTOMRIGHT" relativeTo="TWA_Main" relativePoint="BOTTOMRIGHT" x="-50" y="10" />
                 </Anchors>
             </Frame>
+            <Frame name="QFAnchor"> 
+                <Size>
+                    <AbsDimension x="30" y="5" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="TWA_Main" relativePoint="TOPRIGHT" x="-50" y="10" />
+                </Anchors>
+            </Frame>
+            <Button name="$parentTab7" inherits="UIPanelButtonTemplate" text="Quick Fill">
+                <Size>
+                    <AbsDimension x="70" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="QFAnchor" relativePoint="BOTTOMLEFT" x="-50" y="10" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        ToggleQuickFill_OnClick()
+                        CloseDropDownMenus()
+                    </OnClick>
+                </Scripts>
+            </Button>
             <Button name="$parentTab8" inherits="UIPanelButtonTemplate" text="|c00ff0000Reset">
                 <Size>
                     <AbsDimension x="60" y="22" />
@@ -418,6 +440,10 @@
                         end
                         end
                     </OnEvent>
+                    <OnHide>
+                        -- Hide the QuickFill frame when TWA_Main is hidden
+                        QuickFill:Hide()
+                    </OnHide>
                 </Scripts>
             </Button>
             <!-- ROW 1 -->
@@ -526,6 +552,309 @@
             </OnMouseUp>
         </Scripts>
     </Frame>
+
+    <!-- Define the new QuickFill frame attached to the main frame -->
+    <Frame name="QuickFill" inherits="BasicFrameTemplateWithInset" hidden="true">
+        <Size>
+            <AbsDimension x="205" y="160" />
+        </Size>
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="TWA_Main" relativePoint="TOPRIGHT" x="10" y="0" />
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background"
+            edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="false">
+            <BackgroundInsets>
+                <AbsInset left="2" right="2" top="3" bottom="3" />
+            </BackgroundInsets>
+            <EdgeSize>
+                <AbsValue val="16" />
+            </EdgeSize>
+        </Backdrop>
+        <Frames>
+            <Frame name="QFDesc" inherits="BasicFrameTemplateWithInset">
+                <Size>
+                    <AbsDimension x="190" y="45" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="QuickFill" relativePoint="TOPLEFT" x="10" y="-10" />
+                </Anchors>
+            <Layers>
+                <Layer level="OVERLAY">
+                    <FontString name="QFDescHeader" inherits="GameFontHighlightSmall" text="Quickly replace MT1-4 &amp; Heal1-4.">
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset>
+                                    <AbsDimension x="10" y="-10" />
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </FontString>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="$parentText" inherits="GameFontNormal" text="#                Tank                   Heal" hidden="false">
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset>
+                                    <AbsDimension x="10" y="-30" />
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+            </Frame>
+            <Frame name="QFNumbers" inherits="BasicFrameTemplateWithInset">
+                <Size>
+                    <AbsDimension x="200" y="90" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="QFDesc" relativePoint="BOTTOMLEFT" x="10" y="0" />
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Size>
+                            <AbsDimension x="200" y="20" />
+                        </Size>
+                        <FontString name="QF1" inherits="GameFontNormal" text="1" hidden="false">
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="10" y="-5" />
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentText" inherits="GameFontNormal" text="2" hidden="false">
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="10" y="-25" />
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentText" inherits="GameFontNormal" text="3" hidden="false">
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="10" y="-45" />
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentText" inherits="GameFontNormal" text="4" hidden="false">
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="10" y="-65" />
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <Frame name="smallAnchor" inherits="BasicFrameTemplateWithInset">
+                <Size>
+                    <AbsDimension x="110" y="65" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="QFDesc" relativePoint="TOPLEFT" x="10" y="0" />
+                </Anchors>
+            </Frame>
+            <Frame name="smallAnchor2" inherits="BasicFrameTemplateWithInset">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="smallAnchor" relativePoint="BOTTOMRIGHT" x="10" y="0" />
+                </Anchors>
+            </Frame>
+            <!-- <Frame name="MT1" inherits="TWCell">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="smallAnchor2" relativePoint="TOPLEFT" x="3000" y="0" />
+                </Anchors>
+            </Frame>
+            <Frame name="Heal1" inherits="TWCell">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT1" relativePoint="TOPRIGHT"/>
+                </Anchors>
+            </Frame>
+            <Frame name="MT2" inherits="TWCell" id="1102">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT1" relativePoint="BOTTOMLEFT"/>
+                </Anchors>
+            </Frame>
+            <Frame name="Heal2" inherits="TWCell" id="1105">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT2" relativePoint="TOPRIGHT" />
+                </Anchors>
+            </Frame>
+            <Frame name="MT3" inherits="TWCell">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT2" relativePoint="BOTTOMLEFT"/>
+                </Anchors>
+                <Button id="1106"/>
+            </Frame>
+            <Frame name="Heal3" inherits="TWCell">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT3" relativePoint="TOPRIGHT"/>
+                </Anchors>
+            </Frame>
+            <Frame name="MT4" inherits="TWCell">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT3" relativePoint="BOTTOMLEFT"/>
+                </Anchors>
+            </Frame>
+            <Frame name="Heal4" inherits="TWCellQF">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT4" relativePoint="TOPRIGHT"/>
+                </Anchors>
+            </Frame> -->
+            <!-- Define the input box that doesn't auto-focus and clears focus on Enter -->
+            <EditBox name="MT1InputBox" inherits="InputBoxTemplate" autoFocus="false">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="smallAnchor2" relativePoint="BOTTOMRIGHT" x="10" y="-60" />
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        QFInputBox_OnEnterPressed()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            <EditBox name="MT2InputBox" inherits="InputBoxTemplate" autoFocus="false">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="smallAnchor2" relativePoint="BOTTOMLEFT" x="10" y="-60" />
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        QFInputBox_OnEnterPressed()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            <EditBox name="MT3InputBox" inherits="InputBoxTemplate" autoFocus="false">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT2InputBox" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        QFInputBox_OnEnterPressed()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            <EditBox name="MT4InputBox" inherits="InputBoxTemplate" autoFocus="false">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT3InputBox" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        QFInputBox_OnEnterPressed()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            <Frame name="QFSpacer" inherits="BasicFrameTemplateWithInset">
+                <Size>
+                    <AbsDimension x="7" y="7" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="MT1InputBox" relativePoint="TOPRIGHT" x="0" y="0" />
+                </Anchors>
+            </Frame>
+            <EditBox name="Heal1InputBox" inherits="InputBoxTemplate" autoFocus="false">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="QFSpacer" relativePoint="TOPRIGHT" x="0" y="-10" />
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        QFInputBox_OnEnterPressed()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            <EditBox name="Heal2InputBox" inherits="InputBoxTemplate" autoFocus="false">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Heal1InputBox" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        QFInputBox_OnEnterPressed()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            <EditBox name="Heal3InputBox" inherits="InputBoxTemplate" autoFocus="false">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Heal2InputBox" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        QFInputBox_OnEnterPressed()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            <EditBox name="Heal4InputBox" inherits="InputBoxTemplate" autoFocus="false">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Heal3InputBox" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        QFInputBox_OnEnterPressed()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            <Frame name="replaceAnchor">
+                <size>
+                    <AbsDimension x="7" y="7" />
+                </size>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="QuickFill" relativePoint="BOTTOMLEFT" x="0" y="0" />
+                </Anchors>
+            </Frame>
+            <Button name="$parentReplace" inherits="UIPanelButtonTemplate2" text="Replace">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="replaceAnchor" relativePoint="TOPRIGHT" x="150" y="150" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        QuickFillReplace_OnClick()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+    </Frame>
+<!-- Define the TWCellCopy template -->
+
 
     <Frame name="TWA_RosterManager" hidden="true" toplevel="true" parent="UIParent" movable="true"
         enableMouse="true" resizable="true">

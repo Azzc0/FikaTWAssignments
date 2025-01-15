@@ -1363,6 +1363,28 @@ function TWCell_OnClick(id)
     end
 end
 
+TWA.qfData = {}
+function TWCellQF_OnClick(id)
+    if not TWA_CanMakeChanges() then return end
+    twaprint(id)
+    local row = math.floor(id / 100)
+    local cell = id - row * 100
+    -- Handle the click event for TWCellQF
+    -- Example: Store the value in the new table
+    TWA.qfData[row] = TWA.qfData[row] or {}
+    TWA.qfData[row][cell] = "QFAssignee" -- Replace "SomeValue" with the actual value
+    -- Update the UI or perform other actions as needed
+    print("TWCellQF clicked: row=" .. row .. ", cell=" .. cell)
+end
+function ButtoaneQF_OnEnter(id)
+    local row = math.floor(id / 100)
+    getglobal('TWRow' .. row):SetBackdropColor(1, 1, 1, .2)
+end
+function ButtoaneQF_OnLeave(id)
+    local row = math.floor(id / 100)
+    getglobal('TWRow' .. row):SetBackdropColor(0, 0, 0, .2)
+end
+
 function ForceSync_OnClick()
     if not TWA_CanMakeChanges() then return end
 
@@ -1905,4 +1927,54 @@ end
 SLASH_TWAPREVTEMPLATE1 = "/twaprevtemplate"
 SlashCmdList["TWAPREVTEMPLATE"] = function()
     TWA:SwitchTemplate("previous")
+end
+
+-- Function to print the text from MT1InputBox
+function PrintMT1InputBoxText()
+    local inputBox = getglobal("MT1InputBox")
+    if inputBox then
+        local text = inputBox:GetText()
+        print("MT1InputBox Text: " .. text)
+    else
+        print("MT1InputBox not found")
+    end
+end
+
+-- -- Function to handle the Replace button click
+-- function QuickFillReplace_OnClick()
+--     PrintMT1InputBoxText()
+-- end
+
+-- Function to handle the Enter key press for QFInputBox
+function InputBox_OnEnterPressed()
+    local inputBox = getglobal("MT1InputBox")
+    if inputBox then
+        inputBox:ClearFocus()
+    end
+end
+
+-- Function to check input boxes and replace assignees
+function QuickFillReplace_OnClick()
+    local inputBoxes = {
+        {box = "MT1InputBox", assignee = "MT1"},
+        {box = "MT2InputBox", assignee = "MT2"},
+        {box = "MT3InputBox", assignee = "MT3"},
+        {box = "MT4InputBox", assignee = "MT4"},
+        {box = "Heal1InputBox", assignee = "Heal1"},
+        {box = "Heal2InputBox", assignee = "Heal2"},
+        {box = "Heal3InputBox", assignee = "Heal3"},
+        {box = "Heal4InputBox", assignee = "Heal4"}
+    }
+
+    for _, entry in ipairs(inputBoxes) do
+        local inputBox = getglobal(entry.box)
+        if inputBox then
+            local newAssignee = inputBox:GetText()
+            if newAssignee and newAssignee ~= "" then
+                TWA.ReplaceAssigneeInData(entry.assignee, newAssignee)
+            end
+        else
+            print(entry.box .. " not found")
+        end
+    end
 end

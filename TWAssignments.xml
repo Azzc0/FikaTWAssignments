@@ -255,6 +255,7 @@
                     </OnClick>
                 </Scripts>
             </Button>
+
             <Button name="$parentTab2" inherits="UIPanelButtonTemplate" text="Force sync">
                 <Size>
                     <AbsDimension x="70" y="22" />

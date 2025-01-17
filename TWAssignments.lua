@@ -1418,81 +1418,32 @@ function TWA.AddLine()
     end
 end
 
---- CUSTOM HANDLE TANKS IN ORA2 ---
-function SendOrACommand(slot, playerName, reset)
-    local command = ""
-
-    if(reset == true and not slot) then
-        command = "/oracl mt remove all"
-    elseif reset == true and slot then
-        command = "/oracl mt remove " .. slot
-    else
-        if(not slot and not playerName) then
-            return
-        end
-        command = "/oracl mt set " .. slot .. " " .. playerName
-    end
-
-    DEFAULT_CHAT_FRAME.editBox:SetText(command)
-    ChatEdit_SendText(DEFAULT_CHAT_FRAME.editBox, 1)
-end
-
-function HandleORATanks()
-    local uniqueTanks = {}
-    local tankSet = {}
-    for row, data in ipairs(TWA.data) do
-        -- Tank column 1
-        if data[2] ~= "-" and not tankSet[data[2]] then
-            print(data[2])
-            table.insert(uniqueTanks, data[2])
-            tankSet[data[2]] = true
-        end
-
-        -- -- Tank column 2
-        -- if data[3] ~= "-" and not tankSet[data[3]] then
-        --     print(data[3])
-        --     table.insert(uniqueTanks, data[3])
-        --     tankSet[data[3]] = true
-        -- end
-
-        -- -- Tank column 3
-        -- if data[4] ~= "-" and not tankSet[data[4]] then
-        --     print(data[4])
-        --     table.insert(uniqueTanks, data[4])
-        --     tankSet[data[4]] = true
-        -- end
-    end
-
-    -- Iterate over the unique tank names
-    for index, tank in ipairs(uniqueTanks) do
-        -- Only send the first 10 tanks to ORA
-        if index <= 9 then
-            SendOrACommand(index, tank, false)
-        end
-    end
-
-    -- Send chatcommand to clear all unused tank slots in Ora2
-    for i = table.getn(uniqueTanks) + 1, 9 do
-        SendOrACommand(i, nil, true)
-    end
-end
-
-function ResetOraTanks()
-    SendOrACommand(nil, nil, true)
-end
---- END CUSTOM HANDLE TANKS IN ORA2 ---
 
 function SpamRaid_OnClick()
     if not TWA_CanMakeChanges() then return end
     ChatThrottleLib:SendChatMessage("BULK", "TWA", "Assignments: " .. TWA.loadedTemplate, "RAID_WARNING")
 
-    -- Assign new tanks in ORA2
-    HandleORATanks()
-
     for _, data in next, TWA.data do
         local line = ''
         local dontPrintLine = true
         for i, name in data do
+            if i == 2 then
+                if oRALMainTank and oRALMainTank.core then
+                    if name ~= "-" then
+                        if oRALMainTank.core.maintanktable[_] ~= name then
+                            DEFAULT_CHAT_FRAME.editBox:SetText("/oracl mt set " .. _ .. " " .. name)
+                            ChatEdit_SendText(DEFAULT_CHAT_FRAME.editBox, 1)
+                        end
+                    else
+                        if oRALMainTank.core.maintanktable[_] then
+                            DEFAULT_CHAT_FRAME.editBox:SetText("/oracl mt remove " .. _)
+                            ChatEdit_SendText(DEFAULT_CHAT_FRAME.editBox, 1)
+                        end
+                    end
+                    
+                end
+            end
+
             if i > 1 then
                 dontPrintLine = dontPrintLine and name == '-'
             end
@@ -1509,7 +1460,7 @@ function SpamRaid_OnClick()
                 name = ''
             end
 
-            if TWA.loadedTemplate == '4h' then
+            if TWA.loadedTemplate == "The Four Horsemen" then
                 if name ~= '' and i >= 5 then
                     name = '[' .. i - 4 .. ']' .. name
                 end

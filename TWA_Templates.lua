@@ -396,7 +396,7 @@ end
 
 -- Defaults Templates menu
 TWA.templatesMenu = {
-    { "trash1", false },
+    { "General", false },
     { "General 2", false },
     { "General 3", false },
     { "General 4", false },
@@ -421,10 +421,12 @@ TWA.raidMenu = {
 -- Define templates for different raids
 TWA.raidTemplates = {
     ["Molten Core"] = {
+        { "General", false },
         { "Lucifron", true },
         { "Magmadar", true },
         { "Gehennas", true },
         { "Garr", true },
+        { "Lava packs", false },
         { "Baron Geddon", true },
         { "Shazzrah", true },
         { "Sulfuron Harbinger", true },
@@ -433,6 +435,7 @@ TWA.raidTemplates = {
         { "Ragnaros", true }
     },
     ["Blackwing Lair"] = {
+        { "General", false },
         { "Razorgore", true },
         { "Vaelastrasz", true },
         { "Deathtalon", false },
@@ -448,6 +451,7 @@ TWA.raidTemplates = {
         { "Nefarian", true }
     },
     ["Temple of Ahn'Qiraj"] = {
+        { "General", false },
         { "Anubisath Sentinels", false},
         { "The Prophet Skeram", true },
         { "Qiraji Brainwasher", false },
@@ -465,15 +469,18 @@ TWA.raidTemplates = {
         { "C'Thun", true }
     },
     ["Emerald Sanctum"] = {
-        { "Trash", false },
+        { "General", false },
+        { "Emerald Sanctum", false },
         { "Erennius", true },
         { "Solnius", true }
     },
     ["Naxxramas"] = {
+        { "General", false },
         { "Sapphiron", true },
         { "Kel'Thuzad", true }
     },
     ["Arachnid Quarter"] = {
+        { "General", false },
         { "Venom Stalkers", false },
         { "Anub'Rekhan", true },
         { "Carrion Spinners", false },
@@ -482,17 +489,20 @@ TWA.raidTemplates = {
         { "Maexxna", true }
     },
     ["Plague Quarter"] = {
+        { "General", false },
         { "Noth the Plaguebringer", true },
         { "Heigan the Unclean", true },
         { "Loatheb", true }
     },
     ["Abomination Quarter"] = {
+        { "General", false },
         { "Patchwerk", true },
         { "Grobbulus", true },
         { "Gluth", true },
         { "Thaddius", true }
     },
     ["Deathknight Quarter"] = {
+        { "General", false },
         { "Instructor Razuvious", true },
         { "Gothik the Harvester", true },
         { "The Four Horsemen", true }
@@ -500,7 +510,7 @@ TWA.raidTemplates = {
 }
 
 TWA.twa_templates = {
-    ["General 1"] = {
+    ["General"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },
@@ -1028,7 +1038,7 @@ TWA.twa_templates = {
         [9] = { "-", "-", "-", "-", "-", "-", "-" },
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     },
-    ["Trash"] = {
+    ["Emerald Sanctum"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },

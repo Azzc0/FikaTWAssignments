@@ -10,6 +10,7 @@
     <Script file="TWASync.lua" />
     <Script file="TWAssignments.lua" />
     <Script file="TWRosterFrame.lua" />
+    <Script file="Frames.lua" />
 
     <!-- Cell and button templates -->
 
@@ -448,9 +449,9 @@
             </Button>
             <!-- ROW 1 -->
              <!-- Templates -->
-            <Button name="$parentTemplates" inherits="UIPanelButtonTemplate2" text="Templates">
+            <Button name="selectRaid" inherits="UIPanelButtonTemplate2" text="Select Raid">
                 <Size>
-                    <AbsDimension x="320" y="20" />
+                    <AbsDimension x="80" y="20" />
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT">
@@ -461,7 +462,20 @@
                 </Anchors>
                 <Scripts>
                     <OnClick>
-                        Templates_OnClick()
+                        TWA.SelectRaid_OnClick()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="selectTemplate" inherits="UIPanelButtonTemplate2" text="Templates">
+                <Size>
+                    <AbsDimension x="320" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="selectRaid" relativePoint="RIGHT" x="0" y="-5" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        TWA.SelectTemplate_OnClick()
                     </OnClick>
                 </Scripts>
             </Button>
@@ -471,7 +485,7 @@
                     <AbsDimension x="40" y="20" />
                 </Size>
                 <Anchors>
-                    <Anchor point="LEFT" relativeTo="$parentTemplates" relativePoint="RIGHT" x="5" y="0" />
+                    <Anchor point="LEFT" relativeTo="selectTemplate" relativePoint="RIGHT" x="5" y="0" />
                 </Anchors>
                 <Scripts>
                     <OnClick>

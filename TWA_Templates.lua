@@ -242,6 +242,102 @@ twa_templates = {
     },
 }
 
+-- Define raid menu items
+local raidMenu = {
+    { "Molten Core", true },
+    { "Blackwing Lair", true },
+    { "Temple of Ahn'Qiraj", true },
+    { "Emerald Sanctum", true },
+    { "Naxxramas", true },
+    { "Arachnid Quarter", false },
+    { "Plague Quarter", false},
+    { "Abomination Quarter", false},
+    { "Deathknight Quarter", false},
+}
+
+-- Define templates for raids
+local raidTemplates = {
+    ["Molten Core"] = {
+        { "Lucifron", true },
+        { "Magmadar", true },
+        { "Gehennas", true },
+        { "Garr", true },
+        { "Baron Geddon", true },
+        { "Shazzrah", true },
+        { "Sulfuron", true },
+        { "Golemagg", true },
+        { "Majordomo", true },
+        { "Ragnaros", true }
+    },
+    ["Blackwing Lair"] = {
+        { "Razorgore", true },
+        { "Vaelastrasz", true },
+        { "Deathtalon", false },
+        { "Suppresion Room", false },
+        { "Broodlord", true },
+        { "Lab Packs", false },
+        { "Firemaw", true },
+        { "Overseer Trio", false },
+        { "Wyrmguard Packs", false },
+        { "Ebonroc", true },
+        { "Flamegor", true },
+        { "Chromaggus", true },
+        { "Nefarian", true }
+    },
+    ["Temple of Ahn'Qiraj"] = {
+        { "Anubisath Sentinels", false},
+        { "The Prophet Skeram", true },
+        { "Qiraji Brainwasher", false },
+        { "Vekniss Warriors", false },
+        { "Bug Family", true },
+        { "Vekniss Guardian", false },
+        { "Battleguard Sartura", true },
+        { "Fankriss the Unyielding", true },
+        { "Viscidus", true },
+        { "Vekniss Wasps (Qiraji Lasher)", false },
+        { "Princess Huhuran", true },
+        { "Anubisath Defenders", false },
+        { "Twin Emperors", true },
+        { "Ouro", true },
+        { "C'Thun", true }
+    },
+    {"Emerald Sanctum"} = {
+        { "Trash", false },
+        { "Erennius", true },
+        { "Solnius", true }
+    },
+    ["Naxxramas"] = {
+        { "Anub'Rekhan", true },
+        { "Grand Widow Faerlina", true },
+        { "Maexxna", true }
+    },
+    ["Arachnid Quarter"] = {
+        { "Venom Stalkers", false },
+        { "Anub'Rekhan", true },
+        { "Carrion Spinners", false },
+        { "Acolytes & Cultists", false },
+        { "Grand Widow Faerlina", true },
+        { "Maexxna", true }
+    },
+    ["Plague Quarter"] = {
+        { "Noth the Plaguebringer", true },
+        { "Heigan the Unclean", true },
+        { "Loatheb", true }
+    },
+    ["Abomination Quarter"] = {
+        { "Patchwerk", true },
+        { "Grobbulus", true },
+        { "Gluth", true },
+        { "Thaddius", true }
+    },
+    ["Deathknight Quarter"] = {
+        { "Instructor Razuvious", true },
+        { "Gothik the Harvester", true },
+        { "The Four Horsemen", true }
+    }
+}
+
+
 -- Ordered list of templates for the cycle function
 twa_template_order = {
     'trash1',

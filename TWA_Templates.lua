@@ -19,7 +19,7 @@ end
 function TWA.ChangeRaid(name)
     -- Update button text
     local raidButton = getglobal("selectRaid")
-    getglobal('raidButton'):SetText(name)
+    getglobal('selectRaid'):SetText(name)
     TWA.templatesMenu = TWA.raidTemplates[name]
 end
 
@@ -437,9 +437,9 @@ TWA.raidTemplates = {
         { "General", false },
         { "Razorgore", true },
         { "Vaelastrasz", true },
-        { "Deathtalon", false },
-        { "Suppresion Room", false },
-        { "Broodlord", true },
+        { "Deathtalon Packs", false },
+        { "Suppression Room", false },
+        { "Broodlord Lashlayer", true },
         { "Lab Packs", false },
         { "Firemaw", true },
         { "Overseer Trio", false },
@@ -459,7 +459,7 @@ TWA.raidTemplates = {
         { "Vekniss Guardian", false },
         { "Battleguard Sartura", true },
         { "Fankriss the Unyielding", true },
-        { "Viscidus", true },
+        { "Viscidous", true },
         { "Vekniss Wasps", false },
         { "Princess Huhuran", true },
         { "Anubisath Defenders", false },
@@ -629,7 +629,7 @@ TWA.twa_templates = {
         [9] = { "-", "-", "-", "-", "-", "-", "-" },
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     },
-    ["Lava Pack"] = {
+    ["Lava Packs"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },
@@ -737,7 +737,7 @@ TWA.twa_templates = {
         [9] = { "-", "-", "-", "-", "-", "-", "-" },
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     },
-    ["Deathtalon"] = {
+    ["Deathtalon Packs"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },
@@ -761,7 +761,7 @@ TWA.twa_templates = {
         [9] = { "-", "-", "-", "-", "-", "-", "-" },
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     },
-    ["Broodlord"] = {
+    ["Broodlord Lashlayer"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },
@@ -881,7 +881,7 @@ TWA.twa_templates = {
         [9] = { "-", "-", "-", "-", "-", "-", "-" },
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     },
-    ["The Prophet Skerm"] = {
+    ["The Prophet Skeram"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },
@@ -905,7 +905,7 @@ TWA.twa_templates = {
         [9] = { "-", "-", "-", "-", "-", "-", "-" },
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     },
-    ["Veknis Warriors"] = {
+    ["Vekniss Warriors"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },
@@ -1002,6 +1002,18 @@ TWA.twa_templates = {
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     },
     ["Anubisath Defenders"] = {
+        [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
+        [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
+        [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },
+        [4] = { "Moon", "MT4", "-", "-", "Heal4", "-", "-" },
+        [5] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [9] = { "-", "-", "-", "-", "-", "-", "-" },
+        [10] = { "-", "-", "-", "-", "-", "-", "-" },
+    },
+    ["Ouro"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },

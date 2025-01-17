@@ -482,13 +482,14 @@
                 </Scripts>
             </Button>
             <!-- Button with left arrow -->
-            <Button name="$parentTemplatesLeftArrow" inherits="UIPanelButtonTemplate" text="Prev">
+            <Button name="$parentTemplatesLeftArrow" inherits="UIPanelButtonTemplate">
                 <Size>
-                    <AbsDimension x="40" y="20" />
+                    <AbsDimension x="20" y="20" />
                 </Size>
                 <Anchors>
                     <Anchor point="LEFT" relativeTo="selectTemplate" relativePoint="RIGHT" x="5" y="0" />
                 </Anchors>
+                <NormalTexture file="Interface/Glues/Common/Glue-LeftArrow-Button-Up"/>
                 <Scripts>
                     <OnClick>
                         TWA:SwitchTemplate("previous")
@@ -497,13 +498,14 @@
             </Button>
 
             <!-- Button with right arrow -->
-            <Button name="$parentTemplatesRightArrow" inherits="UIPanelButtonTemplate" text="Next">
+            <Button name="$parentTemplatesRightArrow" inherits="UIPanelButtonTemplate">
                 <Size>
-                    <AbsDimension x="40" y="20" />
+                    <AbsDimension x="20" y="20" />
                 </Size>
                 <Anchors>
                     <Anchor point="LEFT" relativeTo="$parentTemplatesLeftArrow" relativePoint="RIGHT" x="5" y="0" />
                 </Anchors>
+                <NormalTexture file="Interface/Glues/Common/Glue-RightArrow-Button-Up"/>
                 <Scripts>
                     <OnClick>
                         TWA:SwitchTemplate("next")

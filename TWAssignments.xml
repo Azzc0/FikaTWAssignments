@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
 
-    <Script file="TWA_Templates.lua" />
+    
     <Script file="TWAInit.lua" />
     <Script file="TWAUtil.lua" />
     <Script file="TWAConstants.lua" />
@@ -11,6 +11,7 @@
     <Script file="TWAssignments.lua" />
     <Script file="TWRosterFrame.lua" />
     <Script file="Frames.lua" />
+    <Script file="TWA_Templates.lua" />
 
     <!-- Cell and button templates -->
 
@@ -451,7 +452,7 @@
              <!-- Templates -->
             <Button name="selectRaid" inherits="UIPanelButtonTemplate2" text="Select Raid">
                 <Size>
-                    <AbsDimension x="80" y="20" />
+                    <AbsDimension x="130" y="20" />
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT">
@@ -462,20 +463,20 @@
                 </Anchors>
                 <Scripts>
                     <OnClick>
-                        TWA.SelectRaid_OnClick()
+                        SelectRaid_OnClick()
                     </OnClick>
                 </Scripts>
             </Button>
             <Button name="selectTemplate" inherits="UIPanelButtonTemplate2" text="Templates">
                 <Size>
-                    <AbsDimension x="320" y="20" />
+                    <AbsDimension x="220" y="20" />
                 </Size>
                 <Anchors>
                     <Anchor point="LEFT" relativeTo="selectRaid" relativePoint="RIGHT" x="0" y="-5" />
                 </Anchors>
                 <Scripts>
                     <OnClick>
-                        TWA.SelectTemplate_OnClick()
+                        SelectTemplate_OnClick()
                     </OnClick>
                 </Scripts>
             </Button>

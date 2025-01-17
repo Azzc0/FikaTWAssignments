@@ -1,6 +1,8 @@
 local addonVer = "1.1.0.0" --don't use letters or numbers > 10
 local debugLevel = TWA.DEBUG.VERBOSE;
 
+TWA = TWA or {}
+
 TWA.version = addonVer;
 TWA.me = UnitName('player')
 
@@ -60,12 +62,12 @@ end
 function TWA.loadTemplate(template, load)
     if load ~= nil and load == true then
         TWA.data = {}
-        for i, d in next, twa_templates[template] do
+        for i, d in next, TWA.twa_templates[template] do
             TWA.data[i] = d
         end
         TWA.PopulateTWA()
         twaprint('Loaded template |cff69ccf0' .. template)
-        getglobal('TWA_MainTemplates'):SetText(template)
+        --getglobal('TWA_MainTemplates'):SetText(template)
         TWA.loadedTemplate = template
         return true
     end
@@ -1866,8 +1868,8 @@ end
 -- Function to switch to the next or previous template
 function TWA:SwitchTemplate(direction)
     -- Debugging: Check if twa_templates is populated
-    if not twa_templates or next(twa_templates) == nil then
-        print("twa_templates is empty or not defined")
+    if not TWA.twa_templates or next(TWA.twa_templates) == nil then
+        print("TWA.twa_templates is empty or not defined")
         return
     end
 

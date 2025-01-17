@@ -16,20 +16,19 @@ local function HandleClick(name)
     print("Selected:", name)
 end
 
-local function ChangeRaid(name)
+function TWA.ChangeRaid(name)
     -- Update button text
     local raidButton = getglobal("selectRaid")
-    raidButton:SetText(name)
+    getglobal('raidButton'):SetText(name)
     TWA.templatesMenu = TWA.raidTemplates[name]
 end
 
-local function ChangeTemplate(name)
+-- local function ChangeTemplate(name)
+--     local templateButton = getglobal("selectTemplate")
+--     templateButton:SetText(tostring(name))
+--     TWA.loadTemplate(name, load)
+-- end
 
-    local templateButton = getglobal("selectTemplate")
-    templateButton:SetText(tostring(name))
-    TWA.loadTemplate(name, load)
-
-end
 local function buildTemplatesDropdown(self, level)
     for _, item in ipairs(TWA.templatesMenu) do
         local info = {}
@@ -37,7 +36,7 @@ local function buildTemplatesDropdown(self, level)
         info.text = templateName
         info.notCheckable = item[2]
         info.func = function() 
-            ChangeTemplate(templateName) 
+            TWA.loadTemplate(templateName, load) 
         end
         UIDropDownMenu_AddButton(info)
     end
@@ -48,7 +47,7 @@ local function buildRaidDropdown(self, level)
         local info = {}
         info.text = tostring(item[1])  -- Ensure it's a string
         info.notCheckable = item[2]
-        info.func = function() ChangeRaid(info.text) end
+        info.func = function() TWA.ChangeRaid(info.text) end
         UIDropDownMenu_AddButton(info)
     end
 end
@@ -484,7 +483,7 @@ TWA.raidTemplates = {
         { "Venom Stalkers", false },
         { "Anub'Rekhan", true },
         { "Carrion Spinners", false },
-        { "Acolytes & Cultists", false },
+        { "Faerlina trash", false },
         { "Grand Widow Faerlina", true },
         { "Maexxna", true }
     },
@@ -1098,7 +1097,7 @@ TWA.twa_templates = {
         [9] = { "-", "-", "-", "-", "-", "-", "-" },
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     },
-    ["Carrion Spinnes"] = {
+    ["Carrion Spinners"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },
@@ -1110,7 +1109,7 @@ TWA.twa_templates = {
         [9] = { "-", "-", "-", "-", "-", "-", "-" },
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     },
-    ["Acolutes & Cultists"] = {
+    ["Faerlina trash"] = {
         [1] = { "Skull", "MT1", "-", "-", "Heal1", "-", "-" },
         [2] = { "Cross", "MT2", "-", "-", "Heal2", "-", "-" },
         [3] = { "Square", "MT3", "-", "-", "Heal3", "-", "-" },
@@ -1291,6 +1290,32 @@ TWA.twa_templates = {
         [10] = { "-", "-", "-", "-", "-", "-", "-" },
     }
 }
+-- Helper function to get table keys (moved to top)
+local function tkeys(t)
+    local keys = {}
+    for k in pairs(t) do table.insert(keys, k) end
+    return keys
+end
+
+print("Debug: Initial templates created:", next(TWA.twa_templates) ~= nil)
+print("Debug: Available templates:", table.concat(tkeys(TWA.twa_templates), ", "))
+
+local function deepCopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepCopy(orig_key)] = deepCopy(orig_value)
+        end
+    else
+        copy = orig
+    end
+    return copy
+end
+
+-- Create backup
+TWA.backupTemplates = deepCopy(TWA.twa_templates)
 
 --[[
 

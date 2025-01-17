@@ -57,8 +57,6 @@ function TWA_CanMakeChanges()
     return true
 end
 
-
-
 function TWA.loadTemplate(template, load)
     if load ~= nil and load == true then
         TWA.data = {}
@@ -69,42 +67,12 @@ function TWA.loadTemplate(template, load)
         twaprint('Loaded template |cff69ccf0' .. template)
         --getglobal('TWA_MainTemplates'):SetText(template)
         TWA.loadedTemplate = template
+        getglobal('selectTemplate'):SetText(template)
         return true
     end
     TWA.sync.SendAddonMessage(TWA.MESSAGE.LoadTemplate .. "=" .. template)
 end
 
---testing
--- TWA.raid = {
---    ['warrior'] = { 'Smultron', 'Jeff', 'Reis', 'Mesmorc' },
---    ['paladin'] = { 'Paleddin', 'Laughadin' },
---    ['druid'] = { 'Kashchada', 'Faralynn', 'Lulzer' },
---    ['warlock'] = { 'Baba', 'Furry', 'Faust' },
---    ['mage'] = { 'Momo', 'Trepp', 'Linette' },
---    ['priest'] = { 'Er', 'Dispatch', 'Morrgoth' },
---    ['rogue'] = { 'Tyrelys', 'Smersh', 'Tonysoprano' },
---    ['shaman'] = { 'Ilmane', 'Buffalo', 'Cloudburst' },
---    ['hunter'] = { 'Chlo', 'Zteban', 'Ruari' },
--- }
-
--- ---@type TWARoster
--- TWA.testRoster = {
---     ['druid'] = { "ChuckTesta" },
---     ['hunter'] = { "LennartBladh" },
---     ['mage'] = {},
---     ['paladin'] = {},
---     ['priest'] = {},
---     ['rogue'] = {},
---     ['shaman'] = {},
---     ['warlock'] = { "HotTopic" },
---     ['warrior'] = { "AnothaOne", "BigGuyForYou" },
--- }
--- TWA.roster = TWA.testRoster
-
----Get the complete roster, consisting of:
----1. Your own roster
----1. Leader's roster
----1. All assistants' rosters
 ---@return TWARoster
 function TWA.GetCompleteRoster()
     ---@type TWARoster
@@ -1520,6 +1488,47 @@ function TWA.RemRow(id, sender)
     TWA.PopulateTWA()
 end
 
+-- function TWA.restoreDefault()
+--     -- Verify template exists
+--     if not TWA.loadedTemplate then
+--         twaprint("Error: No template loaded")
+--         return false
+--     end
+    
+--     -- Initialize data table
+--     template = TWA.loadedTemplate
+--     TWA.data = TWA.data or {}
+--     -- Verify backup template exists
+--     if not TWA.backupTemplates or not TWA.backupTemplates[template] then
+--         twaprint("Error: Template not found in backups")
+--         return false
+--     end
+    
+--     -- Copy template data
+--     for i, d in pairs(TWA.backupTemplates[template]) do
+--         TWA.data[i] = d
+--     end
+    
+--     TWA.PopulateTWA()
+--     twaprint('Loaded template |cff69ccf0' .. template)
+--     return true
+-- end
+
+function TWA.restoreDefault()
+--     if not TWA.loadedTemplate then
+--         twaprint("Error: No template loaded")
+--         return false
+        template = TWA.loadedTemplate
+        TWA.data = {}
+        for i, d in next, TWA.backupTemplates[template] do
+            TWA.data[i] = d
+        end
+        TWA.PopulateTWA()
+        twaprint('Loading defaults for |cff69ccf0' .. template)
+        --getglobal('TWA_MainTemplates'):SetText(template)
+        return true
+end
+
 function Reset_OnClick()
     if not TWA_CanMakeChanges() then return end
 
@@ -1528,7 +1537,9 @@ function Reset_OnClick()
         button1 = ACCEPT,
         button2 = CANCEL,
         OnAccept = function()
-            TWA.restoreDefaultTemplate()
+            -- TWA.restoreDefaultTemplate()
+            TWA.restoreDefault()
+            -- TWA.loadTemplate(TWA.loadedTemplate, "reset")
         end,
         timeout = 0,
         whileDead = true,
@@ -1703,36 +1714,6 @@ function pairsByKeys(t, f)
     end
     return iter
 end
--- Deep copy function
-local function deepCopy(orig)
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        copy = {}
-        for orig_key, orig_value in next, orig, nil do
-            copy[deepCopy(orig_key)] = deepCopy(orig_value)
-        end
-        setmetatable(copy, deepCopy(getmetatable(orig)))
-    else -- number, string, boolean, etc
-        copy = orig
-    end
-    return copy
-end
-
--- Create an immutable copy of twa_templates on addon load
-TWA.ImmutableTemplates = deepCopy(twa_templates)
-
--- Example function to access the immutable templates
-function TWA.GetImmutableTemplate(templateName)
-    return TWA.ImmutableTemplates[templateName]
-end
-
--- Initialize TWA_DATA if not already initialized
-if not TWA_DATA then
-    TWA_DATA = {
-        [1] = { '-', '-', '-', '-', '-', '-', '-' },
-    }
-end
 
 -- Helper function to capitalize first letter
 local function strCapitalize(str)
@@ -1763,30 +1744,6 @@ function TWA.ReplaceAssigneeInData(currentAssignee, newAssignee)
     twaprint('Replaced ' .. currentAssignee .. ' with ' .. newAssignee .. ' in all data.')
 end
 
--- Function to populate TWA_DATA with the immutable version of the loaded template
-function TWA.PopulateDataWithTemplate(templateName)
-    local template = TWA.GetImmutableTemplate(templateName)
-    if not template then
-        twaprint("Error: Template " .. templateName .. " not found.")
-        return
-    end
-
-    -- Clear existing data
-    TWA_DATA = {}
-
-    for rowIndex, row in ipairs(template) do
-        TWA_DATA[rowIndex] = {}
-        for colIndex, assignee in ipairs(row) do
-            local xy = rowIndex * 100 + colIndex
-            TWA.change(xy, assignee, "system", true)
-        end
-    end
-
-    -- Store the currently loaded template name
-    TWA.loadedTemplate = templateName
-
-    twaprint("Populated TWA_DATA with template: " .. templateName)
-end
 
 -- Function to restore the default template
 function TWA.restoreDefaultTemplate()
@@ -1795,16 +1752,16 @@ function TWA.restoreDefaultTemplate()
         return
     end
 
-    local immutableTemplate = TWA.GetImmutableTemplate(TWA.loadedTemplate)
-    if not immutableTemplate then
-        twaprint("Error: Immutable template " .. TWA.loadedTemplate .. " not found.")
-        return
-    end
+    -- local immutableTemplate = TWA.ImmutableTemplates[TWA.loadedTemplate]
+    -- if not immutableTemplate then
+    --     twaprint("Error: Immutable template " .. TWA.loadedTemplate .. " not found.")
+    --     return
+    -- end
 
     -- Clear existing data
     TWA_DATA = {}
 
-    for rowIndex, row in ipairs(immutableTemplate) do
+    for rowIndex, row in ipairs(TWA.backupTemplates[TWA.loadedTemplate]) do
         TWA_DATA[rowIndex] = {}
         for colIndex, assignee in ipairs(row) do
             local xy = rowIndex * 100 + colIndex
@@ -1818,93 +1775,37 @@ end
 
 -- Function to switch to the next or previous template
 function TWA:SwitchTemplate(direction)
-    -- Debugging: Check if twa_templates is populated
-    if not TWA.twa_templates or next(TWA.twa_templates) == nil then
-        print("TWA.twa_templates is empty or not defined")
+    if not TWA.templatesMenu then
+        print("Debug: No template menu available")
         return
     end
 
-    -- Get the list of template keys
-    local templateKeys = twa_template_order
-
-    -- Debugging: Print the template keys
-    if not templateKeys or next(templateKeys) == nil then
-        print("twa_template_order is empty or not defined")
-        return
-    end
-    print("Template keys:", table.concat(templateKeys, ", "))
-
-    -- Determine the current template index
-    local currentTemplateIndex = 1
-    if self.loadedTemplate then
-        for i, key in ipairs(templateKeys) do
-            if key == self.loadedTemplate then
-                currentTemplateIndex = i
-                break
-            end
-        end
-        if direction == "next" then
-            currentTemplateIndex = currentTemplateIndex + 1
-            if currentTemplateIndex > table.getn(templateKeys) then
-                currentTemplateIndex = 1
-            end
-        elseif direction == "previous" then
-            currentTemplateIndex = currentTemplateIndex - 1
-            if currentTemplateIndex < 1 then
-                currentTemplateIndex = table.getn(templateKeys)
-            end
+    -- Find current template index
+    local currentIndex = 1
+    local templateCount = table.getn(TWA.templatesMenu)
+    
+    for i, template in ipairs(TWA.templatesMenu) do
+        if template[1] == TWA.loadedTemplate then
+            currentIndex = i
+            break
         end
     end
-
-    -- Get the next or previous template key
-    local nextTemplateKey = templateKeys[currentTemplateIndex]
-
-    -- Debugging: Print the current template index and key
-    print("Current template index:", currentTemplateIndex)
-    print("Next template key:", nextTemplateKey)
-
-    -- Load the next or previous template
-    TWA.loadTemplate(nextTemplateKey, load)
-
-    -- Print the current template key for debugging
-    print("Switched to template:", nextTemplateKey)
-end
-
--- Slash command to switch to the next template
-SLASH_TWANEXTTEMPLATE1 = "/twanexttemplate"
-SlashCmdList["TWANEXTTEMPLATE"] = function()
-    TWA:SwitchTemplate("next")
-end
-
--- Slash command to switch to the previous template
-SLASH_TWAPREVTEMPLATE1 = "/twaprevtemplate"
-SlashCmdList["TWAPREVTEMPLATE"] = function()
-    TWA:SwitchTemplate("previous")
-end
-
--- Function to print the text from MT1InputBox
-function PrintMT1InputBoxText()
-    local inputBox = getglobal("MT1InputBox")
-    if inputBox then
-        local text = inputBox:GetText()
-        print("MT1InputBox Text: " .. text)
-    else
-        print("MT1InputBox not found")
+    
+    -- Calculate new index with wrapping
+    local newIndex = currentIndex
+    if direction == "next" then
+        newIndex = currentIndex == templateCount and 1 or currentIndex + 1
+    elseif direction == "previous" then
+        newIndex = currentIndex == 1 and templateCount or currentIndex - 1
     end
+    
+    -- Load new template
+    local newTemplate = TWA.templatesMenu[newIndex][1]
+    TWA.loadTemplate(newTemplate)
+    print("Debug: Switched from", TWA.loadedTemplate, "to", newTemplate)
 end
 
--- -- Function to handle the Replace button click
--- function QuickFillReplace_OnClick()
---     PrintMT1InputBoxText()
--- end
 
--- Function to handle the Enter key press for QFInputBox
-function InputBox_OnEnterPressed()
-    local inputBox = getglobal("MT1InputBox")
-    if inputBox then
-        inputBox:ClearFocus()
-    end
-end
 
 -- Function to check input boxes and replace assignees
 function QuickFillReplace_OnClick()

@@ -241,6 +241,29 @@ twa_templates = {
         [2] = { "Raid", "-", "-", "-", "-", "-", "-" },
     },
 }
+-- Create dropdown frames
+local templatesMenuDropdown = CreateFrame("Frame", "TWRAtemplatesMenuDropdown", UIParent, "UIDropDownMenuTemplate")
+local raidMenuDropdown = CreateFrame("Frame", "TWRAraidMenuDropdown", UIParent, "UIDropDownMenuTemplate")
+
+
+-- Add selected raid variable
+local selectedRaid = nil
+
+-- Click handler function
+local function HandleClick(name)
+    print("Selected:", name)
+end
+
+-- Defaults Templates menu
+local templatesMenu = {
+    { "General 1", false },
+    { "General 2", false },
+    { "General 3", false },
+    { "General 4", false },
+    { "General 5", false },
+    { "General 6", false },
+}
+
 
 -- Define raid menu items
 local raidMenu = {
@@ -301,7 +324,7 @@ local raidTemplates = {
         { "Ouro", true },
         { "C'Thun", true }
     },
-    {"Emerald Sanctum"} = {
+    ["Emerald Sanctum"] = {
         { "Trash", false },
         { "Erennius", true },
         { "Solnius", true }
@@ -337,43 +360,44 @@ local raidTemplates = {
     }
 }
 
+local function ChangeRaid(name)
+    print("Changing raid to:", name)
+    templatesMenu = raidTemplates[name]
+end
 
--- Ordered list of templates for the cycle function
-twa_template_order = {
-    'trash1',
-    'trash2',
-    'trash3',
-    'trash4',
-    'trash5',
-    'gaar',
-    'domo',
-    'rag',
-    'razorgore',
-    'vael',
-    'lashlayer',
-    'chromaggus',
-    'nef',
-    'skeram',
-    'bugtrio',
-    'sartura',
-    'fankriss',
-    'huhu',
-    'twins',
-    'anub',
-    'faerlina',
-    'maexxna',
-    'noth',
-    'heigan',
-    'raz',
-    'gothik',
-    '4h',
-    'patchwerk',
-    'grobulus',
-    'gluth',
-    'thaddius',
-    'saph',
-    'kt'
-}
+local function buildTemplatesDropdown(self, level)
+    local info = {}
+    for _, item in ipairs(templatesMenu) do
+        info.text = item[1]  -- Name is first value
+        info.notCheckable = item[2]
+        info.func = function() HandleClick(item[1]) end
+        UIDropDownMenu_AddButton(info)
+    end
+end
+
+local function buildRaidDropdown(self, level)
+    for _, item in ipairs(raidMenu) do
+        local info = {}
+        info.text = tostring(item[1])  -- Ensure it's a string
+        info.notCheckable = item[2]
+        info.func = function() ChangeRaid(info.text) end
+        UIDropDownMenu_AddButton(info)
+    end
+end
+
+
+
+-- Initialize both dropdowns
+UIDropDownMenu_Initialize(templatesMenuDropdown, buildTemplatesDropdown)
+UIDropDownMenu_Initialize(raidMenuDropdown, buildRaidDropdown)
+
+function TWA.SelectRaid_OnClick()
+    ToggleDropDownMenu(1, nil, raidMenuDropdown, selectRaid, 0, 0, "TOPLEFT", "BOTTOMLEFT")
+end
+
+function TWA.SelectTemplate_OnClick()
+    ToggleDropDownMenu(1, nil, templatesMenuDropdown, selectTemplate, 0, 0, "TOPLEFT", "BOTTOMLEFT")
+end
 
 function buildTemplatesDropdown()
     if UIDROPDOWNMENU_MENU_LEVEL == 1 then

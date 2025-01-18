@@ -12,6 +12,7 @@
     <Script file="TWRosterFrame.lua" />
     <Script file="Frames.lua" />
     <Script file="TWA_Templates.lua" />
+    <Script file="FuBar.lua" />
 
     <!-- Cell and button templates -->
 
@@ -370,85 +371,7 @@
                     </OnClick>
                 </Scripts>
             </Button>
-            <Button name="TWA_Minimap" movable="true" parent="UIParent" enableMouse="true"
-                toplevel="true" frameStrata="LOW">
-                <Size x="33" y="33" />
-                <Anchors>
-                    <Anchor point="CENTER" />
-                </Anchors>
-                <Layers>
-                    <Layer level="BACKGROUND">
-                        <Texture file="Interface\Icons\Spell_Holy_Heal02">
-                            <Size x="21" y="21" />
-                            <Anchors>
-                                <Anchor point="TOPLEFT">
-                                    <Offset x="7" y="-6" />
-                                </Anchor>
-                            </Anchors>
-                            <TexCoords left="0.075" right="0.925" top="0.075" bottom="0.925" />
-                        </Texture>
-                    </Layer>
-                    <Layer level="OVERLAY">
-                        <Texture file="Interface\Minimap\MiniMap-TrackingBorder">
-                            <Size x="56" y="56" />
-                            <Anchors>
-                                <Anchor point="TOPLEFT" />
-                            </Anchors>
-                        </Texture>
-                    </Layer>
-                </Layers>
-                <HighlightTexture alphaMode="ADD"
-                    file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight" />
-                <Scripts>
-                    <OnLoad>
-                        this:RegisterForClicks("RightButtonUp")
-                        this:RegisterForDrag("LeftButton")
-                        this:SetClampedToScreen(true)
-                        this:RegisterEvent("PLAYER_LOGIN")
-                    </OnLoad>
-                    <OnDragStart>
-                        this:LockHighlight()
-                        this:StartMoving()
-                    </OnDragStart>
-                    <OnDragStop>
-                        this:UnlockHighlight()
-                        this:StopMovingOrSizing()
-                        TWA_POSITION = {this:GetCenter()}
-                    </OnDragStop>
-                    <OnEnter>
-                        GameTooltip:SetOwner(this, "ANCHOR_TOPLEFT", 0, 0)
-                        GameTooltip:AddLine('TWAssignments', 1, 1, 1)
-                        GameTooltip:AddLine('Left-click to toggle frame')
-                        -- GameTooltip:AddLine('Right-click for options')
-                        -- GameTooltip:AddLine(DPSMate.L["minimapright"], 0.5, 0.5, 0.5)
-                        GameTooltip:Show()
-                    </OnEnter>
-                    <OnLeave>
-                        GameTooltip:Hide()
-                    </OnLeave>
-                    <OnMouseUp>
-                        if arg1 == "LeftButton" then
-                        toggle_TWA_Main()
-                        -- else
-                        -- ShowTWAMinimapDropdown()
-                        end
-                        CloseDropDownMenus()
-                    </OnMouseUp>
-                    <OnEvent>
-                        if event then
-                        if event == "PLAYER_LOGIN" then
-                        this:ClearAllPoints()
-                        this:SetPoint('CENTER', UIParent, 'BOTTOMLEFT', unpack(TWA_POSITION or
-                        {this:GetCenter()}))
-                        end
-                        end
-                    </OnEvent>
-                    <OnHide>
-                        -- Hide the QuickFill frame when TWA_Main is hidden
-                        QuickFill:Hide()
-                    </OnHide>
-                </Scripts>
-            </Button>
+            
             <!-- ROW 1 -->
              <!-- Templates -->
             <Button name="selectRaid" inherits="UIPanelButtonTemplate2" text="Select Raid">

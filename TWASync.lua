@@ -56,6 +56,7 @@ function TWA.sync.processPacket(_, strPacket, _, sender)
             return false
         end
         TWA.loadTemplate(args[1], true)
+        TWA.FuBarTextUpdate()
         return true
     end
 

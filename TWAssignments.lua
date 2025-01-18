@@ -1802,7 +1802,6 @@ function TWA:SwitchTemplate(direction)
     -- Load new template
     local newTemplate = TWA.templatesMenu[newIndex][1]
     TWA.loadTemplate(newTemplate)
-    print("Debug: Switched from", TWA.loadedTemplate, "to", newTemplate)
 end
 
 
@@ -1832,3 +1831,4 @@ function QuickFillReplace_OnClick()
         end
     end
 end
+

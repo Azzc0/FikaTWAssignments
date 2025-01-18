@@ -1,4 +1,4 @@
-local addonVer = "1.1.0.0" --don't use letters or numbers > 10
+local addonVer = "1.2.0.0" --don't use letters or numbers > 10
 local debugLevel = TWA.DEBUG.VERBOSE;
 
 TWA = TWA or {}
@@ -1333,27 +1333,27 @@ function TWCell_OnClick(id)
     end
 end
 
-TWA.qfData = {}
-function TWCellQF_OnClick(id)
-    if not TWA_CanMakeChanges() then return end
-    twaprint(id)
-    local row = math.floor(id / 100)
-    local cell = id - row * 100
-    -- Handle the click event for TWCellQF
-    -- Example: Store the value in the new table
-    TWA.qfData[row] = TWA.qfData[row] or {}
-    TWA.qfData[row][cell] = "QFAssignee" -- Replace "SomeValue" with the actual value
-    -- Update the UI or perform other actions as needed
-    print("TWCellQF clicked: row=" .. row .. ", cell=" .. cell)
-end
-function ButtoaneQF_OnEnter(id)
-    local row = math.floor(id / 100)
-    getglobal('TWRow' .. row):SetBackdropColor(1, 1, 1, .2)
-end
-function ButtoaneQF_OnLeave(id)
-    local row = math.floor(id / 100)
-    getglobal('TWRow' .. row):SetBackdropColor(0, 0, 0, .2)
-end
+-- TWA.qfData = {}
+-- function TWCellQF_OnClick(id)
+--     if not TWA_CanMakeChanges() then return end
+--     twaprint(id)
+--     local row = math.floor(id / 100)
+--     local cell = id - row * 100
+--     -- Handle the click event for TWCellQF
+--     -- Example: Store the value in the new table
+--     TWA.qfData[row] = TWA.qfData[row] or {}
+--     TWA.qfData[row][cell] = "QFAssignee" -- Replace "SomeValue" with the actual value
+--     -- Update the UI or perform other actions as needed
+--     print("TWCellQF clicked: row=" .. row .. ", cell=" .. cell)
+-- end
+-- function ButtoaneQF_OnEnter(id)
+--     local row = math.floor(id / 100)
+--     getglobal('TWRow' .. row):SetBackdropColor(1, 1, 1, .2)
+-- end
+-- function ButtoaneQF_OnLeave(id)
+--     local row = math.floor(id / 100)
+--     getglobal('TWRow' .. row):SetBackdropColor(0, 0, 0, .2)
+-- end
 
 function ForceSync_OnClick()
     if not TWA_CanMakeChanges() then return end
@@ -1385,7 +1385,6 @@ function TWA.AddLine()
         TWA.PopulateTWA()
     end
 end
-
 
 function SpamRaid_OnClick()
     if not TWA_CanMakeChanges() then return end
@@ -1488,45 +1487,17 @@ function TWA.RemRow(id, sender)
     TWA.PopulateTWA()
 end
 
--- function TWA.restoreDefault()
---     -- Verify template exists
---     if not TWA.loadedTemplate then
---         twaprint("Error: No template loaded")
---         return false
---     end
-    
---     -- Initialize data table
---     template = TWA.loadedTemplate
---     TWA.data = TWA.data or {}
---     -- Verify backup template exists
---     if not TWA.backupTemplates or not TWA.backupTemplates[template] then
---         twaprint("Error: Template not found in backups")
---         return false
---     end
-    
---     -- Copy template data
---     for i, d in pairs(TWA.backupTemplates[template]) do
---         TWA.data[i] = d
---     end
-    
---     TWA.PopulateTWA()
---     twaprint('Loaded template |cff69ccf0' .. template)
---     return true
--- end
-
 function TWA.restoreDefault()
---     if not TWA.loadedTemplate then
---         twaprint("Error: No template loaded")
---         return false
-        template = TWA.loadedTemplate
-        TWA.data = {}
-        for i, d in next, TWA.backupTemplates[template] do
-            TWA.data[i] = d
-        end
-        TWA.PopulateTWA()
-        twaprint('Loading defaults for |cff69ccf0' .. template)
-        --getglobal('TWA_MainTemplates'):SetText(template)
-        return true
+    template = TWA.loadedTemplate
+    
+    TWA.data = {}
+    for i, d in next, TWA.backupTemplates[template] do
+        TWA.data[i] = d
+    end
+    TWA.PopulateTWA()
+    twaprint('Loading defaults for |cff69ccf0' .. template)
+
+    return true
 end
 
 function Reset_OnClick()
@@ -1537,9 +1508,7 @@ function Reset_OnClick()
         button1 = ACCEPT,
         button2 = CANCEL,
         OnAccept = function()
-            -- TWA.restoreDefaultTemplate()
             TWA.restoreDefault()
-            -- TWA.loadTemplate(TWA.loadedTemplate, "reset")
         end,
         timeout = 0,
         whileDead = true,
@@ -1559,22 +1528,20 @@ function TWA.WipeTable()
     TWA.PopulateTWA()
 end
 
-function TWA.Reset()
-    for index, data in next, TWA.data do
-        if TWA.rows[index] then
-            TWA.rows[index]:Hide()
-        end
-        if TWA.data[index] then
-            TWA.data[index] = nil
-        end
-    end
-    TWA.data = {
-        [1] = { '-', '-', '-', '-', '-', '-', '-' },
-    }
-    TWA.PopulateTWA()
-end
-
-
+-- function TWA.Reset()
+--     for index, data in next, TWA.data do
+--         if TWA.rows[index] then
+--             TWA.rows[index]:Hide()
+--         end
+--         if TWA.data[index] then
+--             TWA.data[index] = nil
+--         end
+--     end
+--     TWA.data = {
+--         [1] = { '-', '-', '-', '-', '-', '-', '-' },
+--     }
+--     TWA.PopulateTWA()
+-- end
 
 function CloseTWA_OnClick()
     getglobal('TWA_Main'):Hide()
@@ -1596,13 +1563,6 @@ function ToggleQuickFill_OnClick()
     else
         getglobal('QuickFill'):Show()
     end
-end
-
-
-function Templates_OnClick()
-    if not TWA_CanMakeChanges() then return end
-    UIDropDownMenu_Initialize(TWATemplates, buildTemplatesDropdown, "MENU");
-    ToggleDropDownMenu(1, nil, TWATemplates, "cursor", 2, 3);
 end
 
 function LoadPreset_OnClick()
@@ -1643,7 +1603,7 @@ function SavePreset_OnClick()
     end
 end
 
-function SyncBW_OnClick()
+function SyncBW_OnClick() -- Is this actually used, ever?
     if not TWA_CanMakeChanges() then return end
     TWA.sync.SendAddonMessage_LEGACY("BWSynch=start", "TWABW")
     for _, data in next, TWA.data do
@@ -1720,7 +1680,7 @@ local function strCapitalize(str)
     return string.upper(string.sub(str, 1, 1)) .. string.lower(string.sub(str, 2))
 end
 
--- Function to replace assignee in all data
+-- Function to replace assignee in current template
 function TWA.ReplaceAssigneeInData(currentAssignee, newAssignee)
     if not currentAssignee or not newAssignee then
         twaprint("Error: Both currentAssignee and newAssignee must be provided.")
@@ -1741,37 +1701,8 @@ function TWA.ReplaceAssigneeInData(currentAssignee, newAssignee)
             end
         end
     end
-    twaprint('Replaced ' .. currentAssignee .. ' with ' .. newAssignee .. ' in all data.')
+    twaprint('Replaced ' .. currentAssignee .. ' with ' .. newAssignee .. ' in the current template.')
 end
-
-
--- Function to restore the default template
-function TWA.restoreDefaultTemplate()
-    if not TWA.loadedTemplate then
-        twaprint("Error: No template is currently loaded.")
-        return
-    end
-
-    -- local immutableTemplate = TWA.ImmutableTemplates[TWA.loadedTemplate]
-    -- if not immutableTemplate then
-    --     twaprint("Error: Immutable template " .. TWA.loadedTemplate .. " not found.")
-    --     return
-    -- end
-
-    -- Clear existing data
-    TWA_DATA = {}
-
-    for rowIndex, row in ipairs(TWA.backupTemplates[TWA.loadedTemplate]) do
-        TWA_DATA[rowIndex] = {}
-        for colIndex, assignee in ipairs(row) do
-            local xy = rowIndex * 100 + colIndex
-            TWA.change(xy, assignee, "system", true)
-        end
-    end
-
-    twaprint("Restored default template: " .. TWA.loadedTemplate)
-end
-
 
 -- Function to switch to the next or previous template
 function TWA:SwitchTemplate(direction)
@@ -1808,16 +1739,20 @@ end
 
 -- Function to check input boxes and replace assignees
 function QuickFillReplace_OnClick()
-    local inputBoxes = {
-        {box = "MT1InputBox", assignee = "MT1"},
-        {box = "MT2InputBox", assignee = "MT2"},
-        {box = "MT3InputBox", assignee = "MT3"},
-        {box = "MT4InputBox", assignee = "MT4"},
-        {box = "Heal1InputBox", assignee = "Heal1"},
-        {box = "Heal2InputBox", assignee = "Heal2"},
-        {box = "Heal3InputBox", assignee = "Heal3"},
-        {box = "Heal4InputBox", assignee = "Heal4"}
+    local boxTypes = {
+        { prefix = "MT", count = 4 },
+        { prefix = "Heal", count = 4 }
     }
+    
+    local inputBoxes = {}
+    for _, type in ipairs(boxTypes) do
+        for i = 1, type.count do
+            table.insert(inputBoxes, {
+                box = type.prefix .. i .. "InputBox",
+                assignee = type.prefix .. i
+            })
+        end
+    end
 
     for _, entry in ipairs(inputBoxes) do
         local inputBox = getglobal(entry.box)

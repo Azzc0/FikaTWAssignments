@@ -1,7 +1,7 @@
 features:
 [x] Do some more UI changes. Buttons are currently floating outside windows due to me being lazy.
 
-[ ] Add a raid dropdown to make room for more templates per raid in the templates submenu.
+[x] Add a raid dropdown to make room for more templates per raid in the templates submenu.
 
 [x] Add groups as assignees.
 
@@ -9,9 +9,11 @@ features:
 
 [x] Add a next/previous template button. Functionality has been added with TWA:SwitchTemplate() Accepts next/previous
 
-[ ] Make a fuBar plugin.
+[x] Make a fuBar plugin.
 
-[ ] Make additional templates for various trash packs and a few more bosses.
+[x] Make additional templates for various trash packs and a few more bosses.
+
+[ ] Cleanup
 
 bugs:
 * full sync needs to broadcast which template to use

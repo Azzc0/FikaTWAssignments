@@ -8,9 +8,6 @@ TWA.twa_templates = {}  -- Add missing table
 local templatesMenuDropdown = CreateFrame("Frame", "TWRAtemplatesMenuDropdown", UIParent, "UIDropDownMenuTemplate")
 local raidMenuDropdown = CreateFrame("Frame", "TWRAraidMenuDropdown", UIParent, "UIDropDownMenuTemplate")
 
--- Add selected raid variable
-TWA.selectedRaid = nil
-
 -- Click handler function
 local function HandleClick(name)
     print("Selected:", name)
@@ -45,7 +42,7 @@ end
 local function buildRaidDropdown(self, level)
     for _, item in ipairs(TWA.raidMenu) do
         local info = {}
-        info.text = tostring(item[1])  -- Ensure it's a string
+        info.text = tostring(item[1])
         info.notCheckable = item[2]
         info.func = function() TWA.ChangeRaid(info.text) end
         UIDropDownMenu_AddButton(info)
@@ -56,6 +53,8 @@ end
 UIDropDownMenu_Initialize(templatesMenuDropdown, buildTemplatesDropdown)
 UIDropDownMenu_Initialize(raidMenuDropdown, buildRaidDropdown)
 
+
+
 function SelectRaid_OnClick()
     ToggleDropDownMenu(1, nil, raidMenuDropdown, selectRaid, 0, 0, "TOPLEFT", "BOTTOMLEFT")
 end
@@ -63,6 +62,8 @@ end
 function SelectTemplate_OnClick()
     ToggleDropDownMenu(1, nil, templatesMenuDropdown, selectTemplate, 0, 0, "TOPLEFT", "BOTTOMLEFT")
 end
+
+
 
 -- Defaults Templates menu
 TWA.templatesMenu = {
@@ -73,7 +74,6 @@ TWA.templatesMenu = {
     { "General 5", false },
     { "General 6", false },
 }
-
 
 -- Define raid menu items
 TWA.raidMenu = {
@@ -86,6 +86,7 @@ TWA.raidMenu = {
     { "Plague Quarter", false},
     { "Abomination Quarter", false},
     { "Deathknight Quarter", false},
+    { "General Templates", false}
 }
 
 -- Define templates for different raids
@@ -176,6 +177,14 @@ TWA.raidTemplates = {
         { "Instructor Razuvious", true },
         { "Gothik the Harvester", true },
         { "The Four Horsemen", true }
+    },
+    ["General Templates"] = {
+        { "General", false },
+        { "General 2", false },
+        { "General 3", false },
+        { "General 4", false },
+        { "General 5", false },
+        { "General 6", false }
     }
 }
 

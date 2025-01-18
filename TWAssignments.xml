@@ -146,30 +146,7 @@
                 </Anchors>
                 <Frames>
                     <!-- Define the new button row and headers -->
-                    <Frame name="$parentTopCell1" inherits="BasicFrameTemplateWithInset">
-                        <Size>
-                            <AbsDimension x="5" y="25" />
-                        </Size>
-                        <Anchors>
-                            <Anchor point="TOPLEFT" relativeTo="$parentTopCell" relativePoint="TOPLEFT" x="10" y="-10" />
-                        </Anchors>
-                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-                            <Color r="1" g="0" b="0" a="0.3" />
-                        </Backdrop>
-                        <Button name="$parentTemplates" inherits="UIPanelButtonTemplate2" text="Templates">
-                            <Size>
-                                <AbsDimension x="480" y="20" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="TOPLEFT" relativeTo="$parentTopCell" relativePoint="TOPLEFT" x="10" y="-10" />
-                            </Anchors>
-                            <Scripts>
-                                <OnClick>
-                                    Templates_OnClick()
-                                </OnClick>
-                            </Scripts>
-                        </Button>
-                    </Frame>
+
                     <Frame name="$parentTopCell2" inherits="BasicFrameTemplateWithInset">
                         <Size>
                             <AbsDimension x="92" y="20" />
@@ -617,47 +594,6 @@
                     <Anchor point="BOTTOMRIGHT" relativeTo="smallAnchor" relativePoint="BOTTOMRIGHT" x="10" y="0" />
                 </Anchors>
             </Frame>
-            <!-- <Frame name="MT1" inherits="TWCell">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="smallAnchor2" relativePoint="TOPLEFT" x="3000" y="0" />
-                </Anchors>
-            </Frame>
-            <Frame name="Heal1" inherits="TWCell">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="MT1" relativePoint="TOPRIGHT"/>
-                </Anchors>
-            </Frame>
-            <Frame name="MT2" inherits="TWCell" id="1102">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="MT1" relativePoint="BOTTOMLEFT"/>
-                </Anchors>
-            </Frame>
-            <Frame name="Heal2" inherits="TWCell" id="1105">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="MT2" relativePoint="TOPRIGHT" />
-                </Anchors>
-            </Frame>
-            <Frame name="MT3" inherits="TWCell">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="MT2" relativePoint="BOTTOMLEFT"/>
-                </Anchors>
-                <Button id="1106"/>
-            </Frame>
-            <Frame name="Heal3" inherits="TWCell">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="MT3" relativePoint="TOPRIGHT"/>
-                </Anchors>
-            </Frame>
-            <Frame name="MT4" inherits="TWCell">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="MT3" relativePoint="BOTTOMLEFT"/>
-                </Anchors>
-            </Frame>
-            <Frame name="Heal4" inherits="TWCellQF">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="MT4" relativePoint="TOPRIGHT"/>
-                </Anchors>
-            </Frame> -->
             <!-- Define the input box that doesn't auto-focus and clears focus on Enter -->
             <EditBox name="MT1InputBox" inherits="InputBoxTemplate" autoFocus="false">
                 <Size>

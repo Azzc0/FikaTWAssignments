@@ -280,10 +280,10 @@ function TWA.PlayerGroupStateUpdate()
     end
 end
 
-TWA:SetScript("OnEvent", function()
-    if not event then return end
-
-    if event == "ADDON_LOADED" and arg1 == "TWAssignments" then
+-- Consolidate event handlers into a table
+TWA.eventHandlers = {
+    ADDON_LOADED = function(arg1)
+        if arg1 ~= "TWAssignments" then return end
         twaprint("ADDON_LOADED")
 
         if not TWA_PRESETS then
@@ -321,16 +321,14 @@ TWA:SetScript("OnEvent", function()
                 twaprint("Usage: /twareplace <currentAssignee> <newAssignee>")
             end
         end
-    end
-
-    if event == "PLAYER_LOGIN" then
+    end,
+    PLAYER_LOGIN = function()
         TWA.timeout.set(function()
             twadebug('initializing group state')
             TWA.InitializeGroupState()
         end, TWA.LOGIN_GRACE_PERIOD)
-    end
-
-    if event == "RAID_ROSTER_UPDATE" then
+    end,
+    RAID_ROSTER_UPDATE = function()
         twadebug("RAID_ROSTER_UPDATE")
         if TWA.partyAndRaidCombinedEventTimeoutId ~= nil then
             TWA.timeout.clear(TWA.partyAndRaidCombinedEventTimeoutId)
@@ -339,29 +337,28 @@ TWA:SetScript("OnEvent", function()
         TWA.PlayerGroupStateUpdate()
         TWA.fillRaidData()
         TWA.PopulateTWA()
-    end
-
-    if event == "PARTY_MEMBERS_CHANGED" then
+    end,
+    PARTY_MEMBERS_CHANGED = function()
         twadebug("PARTY_MEMBERS_CHANGED")
         TWA.partyAndRaidCombinedEventTimeoutId = TWA.timeout.set(function()
             TWA.PlayerGroupStateUpdate()
         end, TWA.DOUBLE_EVENT_TIMEOUT)
-    end
-
-    if event == 'CHAT_MSG_ADDON' and (arg1 == "TWA" or arg1 == "TWABW") then
-        if debugLevel >= TWA.DEBUG.VERBOSE then
-            twadebug(arg4 .. ' says: ' .. arg2)
+    end,
+    CHAT_MSG_ADDON = function(arg1, arg2, arg3, arg4)
+        if (arg1 == "TWA" or arg1 == "TWABW") then
+            if debugLevel >= TWA.DEBUG.VERBOSE then
+                twadebug(arg4 .. ' says: ' .. arg2)
+            end
+            if arg1 == "TWA" then
+                TWA.sync.processPacket(arg1, arg2, arg3, arg4)
+            end
         end
-        if arg1 == "TWA" then
-            TWA.sync.processPacket(arg1, arg2, arg3, arg4)
+
+        if arg1 == "QH" then
+            TWA.sync.handleQHSync(arg1, arg2, arg3, arg4)
         end
-    end
-
-    if event == 'CHAT_MSG_ADDON' and arg1 == "QH" then
-        TWA.sync.handleQHSync(arg1, arg2, arg3, arg4)
-    end
-
-    if event == 'CHAT_MSG_WHISPER' then
+    end,
+    CHAT_MSG_WHISPER = function(arg1, arg2)
         if arg1 == 'heal' then
             local lineToSend = ''
             for _, row in next, TWA.data do
@@ -406,6 +403,13 @@ TWA:SetScript("OnEvent", function()
                 ChatThrottleLib:SendChatMessage("BULK", "TWA", lineToSend, "WHISPER", "Common", arg2);
             end
         end
+    end
+}
+
+-- Simpler event handling
+TWA:SetScript("OnEvent", function()
+    if TWA.eventHandlers[event] then
+        TWA.eventHandlers[event](arg1, arg2, arg3, arg4)
     end
 end)
 
@@ -1333,28 +1337,6 @@ function TWCell_OnClick(id)
     end
 end
 
--- TWA.qfData = {}
--- function TWCellQF_OnClick(id)
---     if not TWA_CanMakeChanges() then return end
---     twaprint(id)
---     local row = math.floor(id / 100)
---     local cell = id - row * 100
---     -- Handle the click event for TWCellQF
---     -- Example: Store the value in the new table
---     TWA.qfData[row] = TWA.qfData[row] or {}
---     TWA.qfData[row][cell] = "QFAssignee" -- Replace "SomeValue" with the actual value
---     -- Update the UI or perform other actions as needed
---     print("TWCellQF clicked: row=" .. row .. ", cell=" .. cell)
--- end
--- function ButtoaneQF_OnEnter(id)
---     local row = math.floor(id / 100)
---     getglobal('TWRow' .. row):SetBackdropColor(1, 1, 1, .2)
--- end
--- function ButtoaneQF_OnLeave(id)
---     local row = math.floor(id / 100)
---     getglobal('TWRow' .. row):SetBackdropColor(0, 0, 0, .2)
--- end
-
 function ForceSync_OnClick()
     if not TWA_CanMakeChanges() then return end
 
@@ -1528,21 +1510,6 @@ function TWA.WipeTable()
     TWA.PopulateTWA()
 end
 
--- function TWA.Reset()
---     for index, data in next, TWA.data do
---         if TWA.rows[index] then
---             TWA.rows[index]:Hide()
---         end
---         if TWA.data[index] then
---             TWA.data[index] = nil
---         end
---     end
---     TWA.data = {
---         [1] = { '-', '-', '-', '-', '-', '-', '-' },
---     }
---     TWA.PopulateTWA()
--- end
-
 function CloseTWA_OnClick()
     getglobal('TWA_Main'):Hide()
     getglobal('TWA_RosterManager'):Hide()
@@ -1603,41 +1570,6 @@ function SavePreset_OnClick()
     end
 end
 
-function SyncBW_OnClick() -- Is this actually used, ever?
-    if not TWA_CanMakeChanges() then return end
-    TWA.sync.SendAddonMessage_LEGACY("BWSynch=start", "TWABW")
-    for _, data in next, TWA.data do
-        local line = ''
-        local dontPrintLine = true
-        for i, name in data do
-            dontPrintLine = dontPrintLine and name == '-'
-            local separator = ''
-            if i == 1 then
-                separator = ' : '
-            end
-            if i == 4 then
-                separator = ' || Healers: '
-            end
-
-            if name == '-' then
-                name = ''
-            end
-
-            if TWA.loadedTemplate == '4h' then
-                if name ~= '' and i >= 5 then
-                    name = '[' .. i - 4 .. ']' .. name
-                end
-            end
-
-            line = line .. name .. ' ' .. separator
-        end
-
-        if not dontPrintLine then
-            TWA.sync.SendAddonMessage_LEGACY("BWSynch=" .. line, "TWABW")
-        end
-    end
-    TWA.sync.SendAddonMessage_LEGACY("BWSynch=end", "TWABW")
-end
 
 ---@param delimiter string
 ---@return table<integer, string>

@@ -67,22 +67,9 @@ function TWAssignment:OnTextUpdate()
 end
 
 function TWA.FuBarTextUpdate()
-    local text = TWA.loadedTemplate
-    
-    -- Update using self reference
-    TWAssignment.text = text
-    TWAssignment:UpdateDisplay()
+    TWAssignment:SetText(TWA.loadedTemplate or "No template loaded")
     TWAssignment:UpdateFrameWidth()
-end
-
--- Add display update method
-function TWAssignment:UpdateDisplay()
-    self:SetText(self.text or self:OnTextUpdate())
-    self.frame:Show()
-end
-
-function TWAssignment:GetText()
-    return self:OnTextUpdate()
+    TWAssignment.frame:Show()
 end
 
 function TWAssignment:OnClick(button)
@@ -94,28 +81,17 @@ TWAssignment.OnMenuRequest = {
     args = {
         show = {
             type = "execute",
-            name = "Spam raid",
-            desc = "Updates oRA2 MT list and spams the raid",
-            func = function() SpamRaid_OnClick() end,
+            name = "Show/Hide Window",
+            desc = "Toggle the main window",
+            func = function() toggle_TWA_Main() end,
             order = 1
         },
-        -- reset = {
-        --     type = "execute",
-        --     name = "Reset Template",
-        --     desc = "Reset to default template",
-        --     func = function()
-        --         if TWA.loadedTemplate then
-        --             TWA.restoreDefault()
-        --         end
-        --     end,
-        --     order = 3
-        -- },
         raidMenu = {
             type = "group",
-            name = "Change raid",
-            desc = "Changes which templates are shown in this menu and alos which to cycle through with the buttons",
+            name = "Select raid",
+            desc = "Change active raid templates",
             args = {},
-            order = 4
+            order = 2
         }
     }
 }

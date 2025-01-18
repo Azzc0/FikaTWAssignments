@@ -248,26 +248,12 @@
                     </OnClick>
                 </Scripts>
             </Button>
-            <Button name="$parentTab3" inherits="UIPanelButtonTemplate" text="Sync BW">
-                <Size>
-                    <AbsDimension x="60" y="22" />
-                </Size>
-                <Anchors>
-                    <Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT" x="10" y="0" />
-                </Anchors>
-                <Scripts>
-                    <OnClick>
-                        SyncBW_OnClick()
-                        CloseDropDownMenus()
-                    </OnClick>
-                </Scripts>
-            </Button>
             <Button name="$parentTab4" inherits="UIPanelButtonTemplate" text="Save">
                 <Size>
                     <AbsDimension x="40" y="22" />
                 </Size>
                 <Anchors>
-                    <Anchor point="LEFT" relativeTo="$parentTab3" relativePoint="RIGHT" x="10" y="0" />
+                    <Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT" x="10" y="0" />
                 </Anchors>
                 <Scripts>
                     <OnClick>
@@ -412,25 +398,6 @@
                     </OnClick>
                 </Scripts>
             </Button>
-            <!-- Reset -->
-            <!-- <Button name="$parentReset" inherits="UIPanelButtonTemplate2" text="|c00ff0000Reset">
-                <Size>
-                    <AbsDimension x="65" y="20" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPRIGHT">
-                        <Offset>
-                            <AbsDimension x="-28" y="-5" />
-                        </Offset>
-                    </Anchor>
-                </Anchors>
-                <Scripts>
-                    <OnClick>
-                        Reset_OnClick()
-                        CloseDropDownMenus()
-                    </OnClick>
-                </Scripts>
-            </Button> -->
             <!-- X (Close button) -->
             <Button name="$parentClose" inherits="UIPanelCloseButton">
                 <Size>
@@ -731,8 +698,6 @@
         </Frames>
     </Frame>
 <!-- Define the TWCellCopy template -->
-
-
     <Frame name="TWA_RosterManager" hidden="true" toplevel="true" parent="UIParent" movable="true"
         enableMouse="true" resizable="true">
         <Size>

@@ -1,19 +1,6 @@
 features:
-[x] Do some more UI changes. Buttons are currently floating outside windows due to me being lazy.
-
-[x] Add a raid dropdown to make room for more templates per raid in the templates submenu.
-
-[x] Add groups as assignees.
-
-[x] Implement quickfill to replace some placeholder assignments.
-
-[x] Add a next/previous template button. Functionality has been added with TWA:SwitchTemplate() Accepts next/previous
-
-[x] Make a fuBar plugin.
-
-[x] Make additional templates for various trash packs and a few more bosses.
-
-[ ] Cleanup
+[ ] Add tab functionality to quickfill
+[ ] Finish up creating templates for emerald sanctum and Naxxramas
 
 bugs:
 * full sync needs to broadcast which template to use

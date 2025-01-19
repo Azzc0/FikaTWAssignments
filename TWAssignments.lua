@@ -1375,6 +1375,14 @@ function SpamRaid_OnClick()
     for _, data in next, TWA.data do
         local line = ''
         local dontPrintLine = true
+        local healers = 0
+        for i, name in data do
+            if i > 4 and name ~= "-" then
+                healers = healers + 1
+            end
+        end
+        -- print("This row has " .. healers .. " healers")
+
         for i, name in data do
             if i == 2 then
                 if oRALMainTank and oRALMainTank.core then
@@ -1401,7 +1409,7 @@ function SpamRaid_OnClick()
             if i == 1 then
                 separator = ' : '
             end
-            if i == 4 then
+            if i == 4 and healers ~= 0 then
                 separator = ' || Healers: '
             end
 
@@ -1409,7 +1417,7 @@ function SpamRaid_OnClick()
                 name = ''
             end
 
-            if TWA.loadedTemplate == "The Four Horsemen" then
+            if TWA.loadedTemplate == "The Four Horsemen" or "Loatheb" then
                 if name ~= '' and i >= 5 then
                     name = '[' .. i - 4 .. ']' .. name
                 end
@@ -1421,7 +1429,7 @@ function SpamRaid_OnClick()
                 ['Square'] = '|cFF00B9F3[Square]|r',
                 ['Moon'] = '|cFF8FB9D0[Moon]|r',
                 ['Triangle'] = '|cFF2BD923[Triangle]|r',
-                ['Diamond'] = '"|cFFF7EF52[Diamond]|r"',
+                ['Diamond'] = '||cffB035F2[Diamond]|r',
                 ['Circle'] = '|cFFE76100[Circle]|r',
                 ['Star'] = '|cFFF7EF52[Star]|r',
             }

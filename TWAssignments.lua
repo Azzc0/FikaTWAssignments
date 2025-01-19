@@ -1417,7 +1417,7 @@ function SpamRaid_OnClick()
                 name = ''
             end
 
-            if TWA.loadedTemplate == "The Four Horsemen" or "Loatheb" then
+            if TWA.loadedTemplate == "The Four Horsemen" or TWA.loadedTemplate == "Loatheb" then
                 if name ~= '' and i >= 5 then
                     name = '[' .. i - 4 .. ']' .. name
                 end
@@ -1429,7 +1429,7 @@ function SpamRaid_OnClick()
                 ['Square'] = '|cFF00B9F3[Square]|r',
                 ['Moon'] = '|cFF8FB9D0[Moon]|r',
                 ['Triangle'] = '|cFF2BD923[Triangle]|r',
-                ['Diamond'] = '||cffB035F2[Diamond]|r',
+                ['Diamond'] = '|cffB035F2[Diamond]|r',
                 ['Circle'] = '|cFFE76100[Circle]|r',
                 ['Star'] = '|cFFF7EF52[Star]|r',
             }

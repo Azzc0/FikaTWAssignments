@@ -79,11 +79,11 @@ end
 TWAssignment.OnMenuRequest = {
     type = "group",
     args = {
-        show = {
+        SpamRaid_OnClick = {
             type = "execute",
-            name = "Show/Hide Window",
-            desc = "Toggle the main window",
-            func = function() toggle_TWA_Main() end,
+            name = "Spam Raid",
+            desc = "Spam raid assignments to raid chat",
+            func = function() TWA:SpamRaid() end,
             order = 1
         },
         raidMenu = {
